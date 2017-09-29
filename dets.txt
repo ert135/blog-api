@@ -1,0 +1,15 @@
+mongodb-2.4 (MongoDB 2.4)
+-------------------------
+  Gears:          Located with nodejs-0.10
+  Connection URL: mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/
+  Database Name:  blog
+  Password:       W8PRpqzHUHtL
+  Username:       admin
+
+MongoDB 2.4 database added.  Please make note of these credentials:
+
+   Root User:     admin
+   Root Password: W8PRpqzHUHtL
+   Database Name: blog
+
+Connection URL: mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/

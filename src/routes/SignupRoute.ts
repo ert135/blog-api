@@ -1,0 +1,59 @@
+import * as bcrypt from 'bcryptjs';
+import * as express from 'express';
+import * as jwt from 'jsonwebtoken';
+import { User, UserSchema } from '../models/user.js';
+import { Post } from '../models/posts.js'
+import { IUser } from '../interfaces/IUserDocument';
+import { Route } from './Route'
+
+export class SignupRoute extends Route {
+
+    constructor() {
+        super();
+    }
+
+    registerRoute(router: express.Router): express.Router {
+        return router.post('/', (req, res, next) => {
+            if(
+                req.body.name &&
+                req.body.email &&
+                req.body.password &&
+                req.body.confirmpassword
+            ) {
+                if (req.body.password !== req.body.confirmpassword) {
+                    let err: any = new Error('Passwords do not match');
+                    err.status = 400;
+                    return next(err);
+                }
+                let userData = {
+                    email: req.body.email,
+                    name: req.body.name,
+                    password: req.body.password,
+                    type: 'user'
+                }
+                User.create(userData, (error, user) => {
+                    if (error) {
+                        return next(error);
+                    }else {
+                        const token = jwt.sign({
+                            name: user.name,
+                            email: user.email,
+                            id: user._id
+                        }, this.secret, {
+                            expiresIn : '1440m'
+                        })
+                        res.json({
+                            success: true,
+                            message: 'Success',
+                            token: token
+                        })
+                    }
+                });
+            } else {
+                let err: any = new Error('All Fields required');
+                err.status = 400;
+                return next(err);
+            }
+        });
+    }
+}
