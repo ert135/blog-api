@@ -8,12 +8,14 @@ import { Route } from './Route';
 
 export class UserRoute extends Route {
 
+    private router = express.Router();
+
     constructor() {
         super();
     }
 
-    public registerRoute(router: express.Router): express.Router {
-        return router.get('/', (req, res, next) => {
+    public registerRoute(): express.Router {
+        return this.router.get('/', (req, res, next) => {
             jwt.verify(extractToken(req), this.secret, (err, decoded) => {      
                 if (err) {
                     return next(err);

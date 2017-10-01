@@ -5,7 +5,7 @@ var application = require("./app");
 var debug = require("debug")("express:server");
 var http = require("http");
 //create http server
-var httpPort = normalizePort(process.env.PORT || 8080);
+var httpPort = normalizePort(process.env.BLOG_PORT || 8080);
 var app = new application.App;
 var httpServer = http.createServer(app.express);
 //listen on provided ports

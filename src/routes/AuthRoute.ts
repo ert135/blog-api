@@ -8,12 +8,14 @@ import { Route } from './Route';
 
 export class AuthRoute extends Route {
 
+    private router = express.Router();
+
     constructor() {
         super();
     }
     
-    public registerRoute(router: Router): express.Router {
-        return router.post("/", (req: Request, res: Response, next: NextFunction) => {
+    public registerRoute(): express.Router {
+        return this.router.post("/", (req: Request, res: Response, next: NextFunction) => {
             if (req.body.email && req.body.password) {
                 User.authenticate(req.body.email, req.body.password)
                 .then((user: IUser) => {

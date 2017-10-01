@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const express = require("express");
 const jwt = require("jsonwebtoken");
 const posts_js_1 = require("../models/posts.js");
 const Route_1 = require("./Route");
@@ -7,10 +8,11 @@ const extractToken_1 = require("../utils/extractToken");
 class PostRoute extends Route_1.Route {
     constructor() {
         super();
+        this.router = express.Router();
     }
-    registerRoute(router) {
+    registerRoute() {
         //get post listing
-        router.get('/', function (req, res, next) {
+        this.router.get('/', function (req, res, next) {
             posts_js_1.Post.find({}, null, {
                 sort: {
                     id: -1
@@ -34,7 +36,7 @@ class PostRoute extends Route_1.Route {
             });
         });
         //POST new post
-        router.post('/', function (req, res, next) {
+        this.router.post('/', function (req, res, next) {
             if (req.body.title &&
                 req.body.pictureUrl &&
                 req.body.postedBy &&
@@ -44,7 +46,7 @@ class PostRoute extends Route_1.Route {
                 var err = new Error("Not All required fields present");
                 return next(err);
             }
-            const token = extractToken_1.extractToken(req);
+            const token = extractToken_1.extractToken(req).substring(7);
             if (token) {
                 jwt.verify(token, this.secret, function (err, decoded) {
                     if (err) {
@@ -75,16 +77,16 @@ class PostRoute extends Route_1.Route {
             }
         });
         //PUT(upsert) post
-        router.put('/:id', function (req, res, next) {
-            var token = extractToken_1.extractToken(req);
+        this.router.put('/:id', (req, res, next) => {
+            const token = extractToken_1.extractToken(req).substring(7);
             if (token) {
                 jwt.verify(token, this.secret, (err, decoded) => {
                     if (err) {
                         return next(err);
                     }
                     else {
-                        var query = {
-                            id: req.params.id
+                        const query = {
+                            _id: req.params.id
                         };
                         posts_js_1.Post.findOne(query, function (err, doc) {
                             if (err)
@@ -111,9 +113,9 @@ class PostRoute extends Route_1.Route {
             }
         });
         //get one post
-        router.get('/:id', function (req, res, next) {
+        this.router.get('/:id', function (req, res, next) {
             posts_js_1.Post.find({
-                id: req.params.id
+                _id: req.params.id
             }, function (err, post) {
                 if (err)
                     return next(err);
@@ -126,11 +128,7 @@ class PostRoute extends Route_1.Route {
             });
         });
         //post a comment
-        router.post('/:id/comment', function (req, res, next) {
-            if (isNaN(req.params.id)) {
-                var err = new Error("Id must be a number");
-                return next(err);
-            }
+        this.router.post('/:id/comment', (req, res, next) => {
             if (req.body.text &&
                 req.body.user &&
                 req.body.userName) { }
@@ -143,7 +141,8 @@ class PostRoute extends Route_1.Route {
                 user: req.body.user,
                 userName: req.body.userName
             };
-            const token = extractToken_1.extractToken(req);
+            const token = extractToken_1.extractToken(req).substring(7);
+            console.log('Token is ', token);
             if (!token) {
                 var err = new Error("No Token Provied");
                 return next(err);
@@ -157,7 +156,7 @@ class PostRoute extends Route_1.Route {
                     else {
                         //update logic to go here
                         posts_js_1.Post.findOne({
-                            id: req.params.id
+                            _id: req.params.id
                         }, function (err, post) {
                             if (err)
                                 return err;
@@ -174,12 +173,8 @@ class PostRoute extends Route_1.Route {
                 });
             }
         });
-        router.delete('/:id/comment/:commentId', (req, res, next) => {
-            if (isNaN(req.params.id)) {
-                var err = new Error("Id must be a number");
-                return next(err);
-            }
-            const token = extractToken_1.extractToken(req);
+        this.router.delete('/:id/comment/:commentId', (req, res, next) => {
+            const token = extractToken_1.extractToken(req).substring(7);
             if (!token) {
                 var err = new Error("No Token Provied");
                 return next(err);
@@ -194,7 +189,7 @@ class PostRoute extends Route_1.Route {
                         else {
                             //update logic to go here
                             posts_js_1.Post.findOne({
-                                id: req.params.id
+                                _id: req.params.id
                             }, function (err, post) {
                                 if (err)
                                     return err;
@@ -216,7 +211,7 @@ class PostRoute extends Route_1.Route {
                 });
             }
         });
-        return router;
+        return this.router;
     }
 }
 exports.PostRoute = PostRoute;

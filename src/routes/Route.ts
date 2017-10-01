@@ -9,6 +9,6 @@ export abstract class Route {
         this.secret = getSecret();
     }
 
-    abstract registerRoute(router: express.Router) : express.Router;
+    abstract registerRoute() : express.Router;
 
 }

@@ -21,7 +21,7 @@ export class App {
 
 	constructor() {
 		this.express = express();
-		this.router = express.Router()
+		this.router = express.Router();
 		this.db_name = 'blog';
 		this.connectDatabase();
 		this.registerMiddleware();
@@ -33,7 +33,7 @@ export class App {
 		//provide a sensible default for local development
 		let mongodb_connection_string = "mongodb://localhost:27017/" + this.db_name;
 
-		//take advantage of env vars when available: need to set a enviroment var on the aws instance and save its image for reuse 
+		//take advantage of env vars when available: need to set a enviroment var on the aws instance and save its image for reuse
 		if (process.env.MONGODB_URL) {
 			mongodb_connection_string = process.env.MONGODB_URL + this.db_name;
 		}
@@ -55,7 +55,6 @@ export class App {
 		this.express.use(logger('dev'));
 		this.express.use(bodyParser.json());
 		this.express.use(bearerToken());
-
 		//setup CORS and options response
 		this.express.use((req, res, next) => {
 			res.header("Access-Control-Allow-Origin", "*");
@@ -71,10 +70,10 @@ export class App {
 	}
 
 	private registerRoutes(): void {
-		this.express.use("/posts", new PostRoute().registerRoute(this.router));
-		this.express.use("/signup", new SignupRoute().registerRoute(this.router));
-		this.express.use("/users", new UserRoute().registerRoute(this.router));
-		this.express.use('/auth', new AuthRoute().registerRoute(this.router));
+		this.express.use("/posts", new PostRoute().registerRoute());
+		this.express.use("/signup", new SignupRoute().registerRoute());
+		this.express.use("/users", new UserRoute().registerRoute());
+		this.express.use('/auth', new AuthRoute().registerRoute());
 	}
 
 	private registerErrorHandlers(): void {

@@ -8,12 +8,14 @@ import { Route } from './Route'
 
 export class SignupRoute extends Route {
 
+    private router = express.Router();
+
     constructor() {
         super();
     }
 
-    registerRoute(router: express.Router): express.Router {
-        return router.post('/', (req, res, next) => {
+    registerRoute(): express.Router {
+        return this.router.post('/', (req, res, next) => {
             if(
                 req.body.name &&
                 req.body.email &&

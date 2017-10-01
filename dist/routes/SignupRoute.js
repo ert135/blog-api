@@ -1,14 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const express = require("express");
 const jwt = require("jsonwebtoken");
 const user_js_1 = require("../models/user.js");
 const Route_1 = require("./Route");
 class SignupRoute extends Route_1.Route {
     constructor() {
         super();
+        this.router = express.Router();
     }
-    registerRoute(router) {
-        return router.post('/', (req, res, next) => {
+    registerRoute() {
+        return this.router.post('/', (req, res, next) => {
             if (req.body.name &&
                 req.body.email &&
                 req.body.password &&

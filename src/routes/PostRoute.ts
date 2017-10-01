@@ -9,13 +9,15 @@ import { extractToken } from '../utils/extractToken';
 
 export class PostRoute extends Route {
 
+    private router = express.Router();
+
     constructor() {
         super();
     }
 
-    registerRoute(router: express.Router): express.Router {
+    registerRoute(): express.Router {
         //get post listing
-        router.get('/', function(req, res, next) {
+        this.router.get('/', function(req, res, next) {
             Post.find({}, null, {
                 sort: {
                     id: -1
@@ -39,7 +41,7 @@ export class PostRoute extends Route {
         });
 
         //POST new post
-        router.post('/', function(req, res, next) {
+        this.router.post('/', function(req, res, next) {
 
             if (
                 req.body.title && 
@@ -53,7 +55,7 @@ export class PostRoute extends Route {
                 return next(err);
             }
 
-            const token = extractToken(req);
+            const token = extractToken(req).substring(7);
 
             if (token) {
                 jwt.verify(token, this.secret, function(err, decoded) {
@@ -83,19 +85,18 @@ export class PostRoute extends Route {
         });
 
         //PUT(upsert) post
-        router.put('/:id', function(req, res, next) {
+        this.router.put('/:id', (req, res, next) => {
 
-            var token = extractToken(req);
+            const token = extractToken(req).substring(7);
 
             if (token) {
                 jwt.verify(token, this.secret, (err, decoded) => {
                     if (err) {
                         return next(err);
                     } else {
-                        var query = {
-                        id: req.params.id
+                        const query = {
+                            _id: req.params.id
                         };
-
                         Post.findOne(query, function (err, doc){
                             if(err) return next(err)
                             if (doc) {
@@ -104,7 +105,7 @@ export class PostRoute extends Route {
                                     pictureUrl: req.body.newData.pictureUrl ? req.body.newData.pictureUrl : doc.pictureUrl,
                                     postBody: req.body.newData.postBody ? req.body.newData.postBody : doc.postBody,
                                     subtitle: req.body.newData.subtitle ? req.body.newData.subtitle :  doc.subtitle
-                                }, {upsert: true, 'new': true}, function(err, doc){
+                                }, {upsert: true, 'new': true}, function(err, doc) {
                                     if (err) return next(err);
                                     return res.send(doc);
                                 });
@@ -119,9 +120,9 @@ export class PostRoute extends Route {
         });
 
         //get one post
-        router.get('/:id', function(req, res, next) {
+        this.router.get('/:id', function(req, res, next) {
             Post.find({
-                id: req.params.id
+                _id: req.params.id
             }, function(err, post) {
                 if (err) return next(err)
                 if (!post || post.length == 0) {
@@ -134,11 +135,7 @@ export class PostRoute extends Route {
         });
 
         //post a comment
-        router.post('/:id/comment', function(req, res, next) {
-            if (isNaN(req.params.id)) {
-                var err = new Error("Id must be a number");
-                return next(err);
-            }
+        this.router.post('/:id/comment', (req, res, next) => {
 
             if (req.body.text &&
                 req.body.user &&
@@ -153,7 +150,9 @@ export class PostRoute extends Route {
                 userName: req.body.userName
             }
 
-            const token = extractToken(req);
+            const token = extractToken(req).substring(7);
+
+            console.log('Token is ', token);
 
             if (!token) {
                 var err = new Error("No Token Provied");
@@ -167,7 +166,7 @@ export class PostRoute extends Route {
                     } else {
                         //update logic to go here
                         Post.findOne({
-                            id: req.params.id
+                            _id: req.params.id
                         }, function(err, post : any) {
                             if (err) return err;
                             if (!post || post.length == 0) {
@@ -184,13 +183,10 @@ export class PostRoute extends Route {
             }
         });
 
-        router.delete('/:id/comment/:commentId', (req, res, next) => {
-            if (isNaN(req.params.id)) {
-                var err = new Error("Id must be a number");
-                return next(err);
-            }
+        this.router.delete('/:id/comment/:commentId', (req, res, next) => {
 
-            const token = extractToken(req)
+            const token = extractToken(req).substring(7);
+
             if (!token) {
                 var err = new Error("No Token Provied");
                 return next(err);
@@ -205,7 +201,7 @@ export class PostRoute extends Route {
                         } else {
                             //update logic to go here
                             Post.findOne({
-                                id: req.params.id
+                                _id: req.params.id
                             }, function(err, post: any) {
                                 if (err) return err;
                                 if (!post || post.length == 0) {
@@ -228,7 +224,7 @@ export class PostRoute extends Route {
 
         })
 
-        return router;
+        return this.router;
 
     }
 }
