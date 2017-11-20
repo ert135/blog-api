@@ -11,21 +11,21 @@ files:
   - source: /
     destination: /home/ec2-user/blog-api
 hooks:
-  # ApplicationStop:
-  #   - location: 
-  #     timeout: 100
-  #     runas: ec2-user
-  # BeforeInstall:
-  #   - location: scripts/installDependencies.sh
-  #     timeout: 300
-  #     runas: ec2-user
-  #   - location: scripts/setEnvVars.sh
-  #     timeout: 300
-  #     runas: ec2-user
-  # AfterInstall:
-  #   - location: scripts/npmInstall.sh
-  #     timeout: 300
-  #     runas: ec2-user
-  #   - location: scripts/startServer.sh
-  #     timeout: 300
-  #     runas: ec2-user
+  ApplicationStop:
+    - location: 
+      timeout: 100
+      runas: ec2-user
+  BeforeInstall:
+    - location: scripts/installDependencies.sh
+      timeout: 300
+      runas: ec2-user
+    - location: scripts/setEnvVars.sh
+      timeout: 300
+      runas: ec2-user
+  AfterInstall:
+    - location: scripts/npmInstall.sh
+      timeout: 300
+      runas: ec2-user
+    - location: scripts/startServer.sh
+      timeout: 300
+      runas: ec2-user
