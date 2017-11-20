@@ -14,18 +14,18 @@ hooks:
   ApplicationStop:
     - location: 
       timeout: 100
-      runas: ec2-user
+      runas: root
   BeforeInstall:
     - location: scripts/installDependencies.sh
-      timeout: 300
-      runas: ec2-user
+      timeout: 100
+      runas: root
     - location: scripts/setEnvVars.sh
       timeout: 300
-      runas: ec2-user
+      runas: root
   AfterInstall:
     - location: scripts/npmInstall.sh
       timeout: 300
-      runas: ec2-user
+      runas: eroot
     - location: scripts/startServer.sh
       timeout: 300
-      runas: ec2-user
+      runas: root
