@@ -1,5 +1,5 @@
 const getSecret = (): string => {
-    return process.env['jwt_secret']
+    return process.env['JWT_SECRET']
 }
 
 export {

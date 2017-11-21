@@ -1,3 +1,11 @@
 #!/bin/bash
-service httpd start
+cd /home/ec2-user/blog-api
+npm install
+npm run build
+
+cd /home/ec2-user/blog-api/dist
+sudo -E node server.js
+
+
+
 
