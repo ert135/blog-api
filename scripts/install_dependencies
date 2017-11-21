@@ -1,9 +1,11 @@
 #!/bin/bash
 
 # Install Node
-yum install -y gcc-c++ make
-curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
-yum install nodejs
+sudo yum install -y httpd
+sudo yum install -y gcc-c++ make
+cd /home/ec2-user
+sudo curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
+sudo yum -y install nodejs
 
 
 
