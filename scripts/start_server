@@ -9,6 +9,7 @@ sudo npm install
 sudo npm run build
 
 cd /home/ec2-user/blog-api/dist
+printenv
 sudo -E node server.js
 
 
