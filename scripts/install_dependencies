@@ -1,3 +1,14 @@
 #!/bin/bash
+
+# Install Node
 yum install -y httpd
+yum install -y gcc-c++ make
+curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
+yum install nodejs
+
+# Install Mongo Instance
+# make new yum repo file so we can install mongo through yum
+cd /etc/yum.repos.d
+
+
 
