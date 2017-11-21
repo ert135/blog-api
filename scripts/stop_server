@@ -4,3 +4,4 @@ if [[ -n  $isExistApp ]]; then
     service httpd stop        
 fi
 
+rm -rf /home/ec2-user/blog-api
