@@ -2,17 +2,17 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/xxuserxx/xxcodedirectoryxx
+    destination: /home/ec2-user/blog-api
 hooks:
   BeforeInstall:
-    - location: apache_stop.sh
+    - location: scripts/install_dependencies
       timeout: 300
       runas: root
-  AfterInstall:
-    - location: afterinstall.sh
+    - location: scripts/start_server
       timeout: 300
       runas: root
-  ApplicationStart:
-    - location: apache_start.sh
+  ApplicationStop:
+    - location: scripts/stop_server
       timeout: 300
       runas: root
+
