@@ -8,10 +8,8 @@
   "version": "1.0.0",
   "description": "Roberts Blog api",
   "keywords": [
-    "OpenShift",
     "Node.js",
-    "application",
-    "openshift"
+    "application"
   ],
   "author": {
     "name": "Robert Smith",
@@ -57,7 +55,7 @@
     "webpack": "^3.5.1"
   },
   "devDependencies": {
-
+    "@types/es6-promise": "0.0.33"
   },
   "bundleDependencies": [],
   "private": true,
