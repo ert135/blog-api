@@ -9,12 +9,11 @@ hooks:
     - location: scripts/install_dependencies
       timeout: 1200
       runas: ec2-user
+    - location: scripts/stop_server
+      timeout: 1200
+      runas: root
   ApplicationStart:
     - location: scripts/start_server
       timeout: 1200
       runas: ec2-user
-  ApplicationStop:
-    - location: scripts/stop_server
-      timeout: 1200
-      runas: root
 
