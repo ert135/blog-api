@@ -1,3 +1,4 @@
 #!/bin/bash
+printenv
 echo 'Stopping the server'
 
