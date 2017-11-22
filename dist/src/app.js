@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var mongoose = require("mongoose");
 var logger = require("morgan");
@@ -9,7 +7,7 @@ var UserRoute_1 = require("./routes/UserRoute");
 var SignupRoute_1 = require("./routes/SignupRoute");
 var AuthRoute_1 = require("./routes/AuthRoute");
 var bearerToken = require("express-bearer-token");
-var App = /** @class */ (function () {
+var App = (function () {
     function App() {
         this.express = express();
         this.router = express.Router();
@@ -73,5 +71,5 @@ var App = /** @class */ (function () {
         });
     };
     return App;
-}());
+})();
 exports.App = App;

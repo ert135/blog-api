@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var mongoose_1 = require("mongoose");
+var mongoose_1 = require('mongoose');
 var CommentSchema = new mongoose_1.Schema({
     text: String,
     user: String,

@@ -1,23 +1,36 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-const jwt = require("jsonwebtoken");
-const express = require("express");
-const user_js_1 = require("../models/user.js");
-const extractToken_1 = require("../utils/extractToken");
-const Route_1 = require("./Route");
-class UserRoute extends Route_1.Route {
-    constructor() {
-        super();
-        this.router = express.Router();
+var jwt = require("jsonwebtoken");
+var express = require("express");
+var user_js_1 = require("../models/user.js");
+var extractToken_1 = require("../utils/extractToken");
+var Route_1 = require("./Route");
+var UserRoute = /** @class */ (function (_super) {
+    __extends(UserRoute, _super);
+    function UserRoute() {
+        var _this = _super.call(this) || this;
+        _this.router = express.Router();
+        return _this;
     }
-    registerRoute() {
-        return this.router.get('/', (req, res, next) => {
-            jwt.verify(extractToken_1.extractToken(req), this.secret, (err, decoded) => {
+    UserRoute.prototype.registerRoute = function () {
+        var _this = this;
+        return this.router.get('/', function (req, res, next) {
+            jwt.verify(extractToken_1.extractToken(req), _this.secret, function (err, decoded) {
                 if (err) {
                     return next(err);
                 }
                 else {
-                    user_js_1.User.find({}, null, { sort: { id: -1 } }, (err, posts) => {
+                    user_js_1.User.find({}, null, { sort: { id: -1 } }, function (err, posts) {
                         if (err)
                             return next(err);
                         res.json(posts);
@@ -25,6 +38,7 @@ class UserRoute extends Route_1.Route {
                 }
             });
         });
-    }
-}
+    };
+    return UserRoute;
+}(Route_1.Route));
 exports.UserRoute = UserRoute;

@@ -1,3 +1,6 @@
+!/usr/bin / env;
+node;
+"use strict";
 //module dependencies
 var application = require("./app");
 var debug = require("debug")("express:server");

@@ -1,26 +1,18 @@
-"use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var express = require("express");
-var jwt = require("jsonwebtoken");
-var posts_js_1 = require("../models/posts.js");
-var Route_1 = require("./Route");
-var extractToken_1 = require("../utils/extractToken");
-var PostRoute = /** @class */ (function (_super) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var express = require('express');
+var jwt = require('jsonwebtoken');
+var posts_js_1 = require('../models/posts.js');
+var Route_1 = require('./Route');
+var extractToken_1 = require('../utils/extractToken');
+var PostRoute = (function (_super) {
     __extends(PostRoute, _super);
     function PostRoute() {
-        var _this = _super.call(this) || this;
-        _this.router = express.Router();
-        return _this;
+        _super.call(this);
+        this.router = express.Router();
     }
     PostRoute.prototype.registerRoute = function () {
         var _this = this;
@@ -98,14 +90,14 @@ var PostRoute = /** @class */ (function (_super) {
                         return next(err);
                     }
                     else {
-                        var query_1 = {
+                        var query = {
                             _id: req.params.id
                         };
-                        posts_js_1.Post.findOne(query_1, function (err, doc) {
+                        posts_js_1.Post.findOne(query, function (err, doc) {
                             if (err)
                                 return next(err);
                             if (doc) {
-                                posts_js_1.Post.findOneAndUpdate(query_1, {
+                                posts_js_1.Post.findOneAndUpdate(query, {
                                     title: req.body.newData.title ? req.body.newData.title : doc.title,
                                     pictureUrl: req.body.newData.pictureUrl ? req.body.newData.pictureUrl : doc.pictureUrl,
                                     postBody: req.body.newData.postBody ? req.body.newData.postBody : doc.postBody,
@@ -227,5 +219,5 @@ var PostRoute = /** @class */ (function (_super) {
         return this.router;
     };
     return PostRoute;
-}(Route_1.Route));
+})(Route_1.Route);
 exports.PostRoute = PostRoute;

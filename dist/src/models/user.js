@@ -1,8 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var mongoose_1 = require("mongoose");
-var bcrypt = require("bcryptjs");
-var beautifyUnique = require("mongoose-beautiful-unique-validation");
+var mongoose_1 = require('mongoose');
+var bcrypt = require('bcryptjs');
+var beautifyUnique = require('mongoose-beautiful-unique-validation');
 var UserSchema = new mongoose_1.Schema({
     email: {
         type: String,
