@@ -4,3 +4,5 @@ if [[ -n  $isExistApp ]]; then
     service httpd stop        
 fi
 
+sudo killall node
+
