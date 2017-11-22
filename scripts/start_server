@@ -1,5 +1,5 @@
 #!/bin/bash
 cd /home/ec2-user/blog-api
-npm install
+sudo npm install
 cd /home/ec2-user/blog-api/dist
-node server.js
+sudo node server.js
