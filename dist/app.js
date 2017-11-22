@@ -21,7 +21,7 @@ var App = /** @class */ (function () {
     }
     App.prototype.connectDatabase = function () {
         //provide a sensible default for local development
-        var mongodb_connection_string = "mongodb://localhost:27017/" + this.db_name;
+        var mongodb_connection_string = "mongodb://35.177.16.180:27017/" + this.db_name;
         //take advantage of env vars when available: need to set a enviroment var on the aws instance and save its image for reuse
         if (process.env.MONGODB_URL) {
             mongodb_connection_string = process.env.MONGODB_URL + this.db_name;
