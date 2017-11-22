@@ -5,7 +5,7 @@ var userModel = require('../models/user.js').User;
 var postSchema = require('../models/posts.js').postsSchema;
 
 var db_name = "blog";
-let mongodb_connection_string = "mongodb://35.177.16.180:27017/" + db_name;
+let mongodb_connection_string = "mongodb://35.176.44.151:27017/" + db_name;
 
 mongoose.connect(mongodb_connection_string);
 
