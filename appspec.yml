@@ -5,10 +5,11 @@ files:
     destination: /home/ec2-user/blog-api
 
 hooks:
-  AfterInstall:
+  BeforeInstall:
     - location: scripts/install_dependencies
       timeout: 1200
       runas: ec2-user
+  AfterInstall:
     - location: scripts/stop_server
       timeout: 1200
       runas: root
