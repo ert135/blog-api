@@ -1,3 +1,6 @@
 #!/bin/bash
-sudo killall node
-sudo rm -rf /home/ec2-user/blog-api
+isExistApp = `pgrep httpd`
+if [[ -n  $isExistApp ]]; then
+    service httpd stop        
+fi
+
