@@ -1,8 +1,14 @@
 #!/bin/bash
-export JWT_SECRET=kasjdhfjdsahfjkldfsfd
-export MONGODB_URL=
 
-# Make sure port 80 is routed to port 8080, saves ahving to use ngix or Apache front facing server
+# Need to remove secret from here, and maybe puit these into a config file to they are saved out of session
+export JWT_SECRET=kasjdhfjdsahfjkldfsfd
+export MONGODB_URL=mongodb://35.177.16.180:27017/
+
+# cd /etc/profile.d
+# cat > sample.txt
+# export MONGODB_URL=mongodb://35.177.16.180:27017/
+
+# Make sure port 80 is routed to port 8080, saves having to use ngix or Apache front facing server
 sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
 
 # Install node deps for repo 
