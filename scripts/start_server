@@ -1,5 +1,17 @@
 #!/bin/bash
+export JWT_SECRET=kasjdhfjdsahfjkldfsfd
+export MONGODB_URL=
+
+# Make sure port 80 is routed to port 8080, saves ahving to use ngix or Apache front facing server
+sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
+
+# Install node deps for repo 
 cd /home/ec2-user/blog-api
 sudo npm install
+
+# Install forever to stop and start node service 
+npm install forever -g
+
+# Use forever to start service
 cd /home/ec2-user/blog-api/dist
-sudo node server.js
+sudo -E forever start server.js

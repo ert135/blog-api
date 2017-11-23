@@ -1,4 +1,7 @@
 #!/bin/bash
 printenv
 echo 'Stopping the server'
+# Use forever to Stop service
+cd /home/ec2-user/blog-api/dist
+sudo -E forever stop server.js
 
