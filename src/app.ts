@@ -1,5 +1,5 @@
 import * as express from "express";
-import * as mongoose from "mongoose";
+import * as Sequelize from 'sequelize';
 
 import * as path from "path";
 import * as logger from "morgan";
@@ -30,24 +30,16 @@ export class App {
 	}
 
 	private connectDatabase(): void {
-		//provide a sensible default for local development
-		let mongodb_connection_string = "mongodb://35.177.16.180:27017/" + this.db_name;
-
-		//take advantage of env vars when available: need to set a enviroment var on the aws instance and save its image for reuse
-		if (process.env.MONGODB_URL) {
-			mongodb_connection_string = process.env.MONGODB_URL + this.db_name;
-		}
-
-		mongoose.connect(mongodb_connection_string);
-
-		const db = mongoose.connection;
-
-		db.on("error", function(err){
-			console.error("db connection error", err);
-		});
-
-		db.once("open", function() {
-			console.log("db connection successful");
+		console.log('Connecting to database...');
+		const sequelize = new Sequelize('blog', 'postgres', 'saltwater9', {
+			host: 'localhost',
+			dialect: 'postgres',
+			pool: {
+			  max: 5,
+			  min: 0,
+			  acquire: 30000,
+			  idle: 10000
+			}
 		});
 	}
 
@@ -66,7 +58,7 @@ export class App {
 			}
 
 			next();
-		})
+		});
 	}
 
 	private registerRoutes(): void {
@@ -82,7 +74,7 @@ export class App {
 			err.message = err.message;
 			err.status = 404
 			next(err);
-		})
+		});
 
 		this.express.use((err,req,res,next) => {
 			res.status(err.status || 500);
@@ -90,7 +82,7 @@ export class App {
 				error: {
 					message: err.message || err
 				}
-			})
-		})
+			});
+		});
 	}
 }

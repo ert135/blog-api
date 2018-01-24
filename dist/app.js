@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
-var mongoose = require("mongoose");
+var Sequelize = require("sequelize");
 var logger = require("morgan");
 var bodyParser = require("body-parser");
 var PostRoute_1 = require("./routes/PostRoute");
@@ -20,19 +20,16 @@ var App = /** @class */ (function () {
         this.registerErrorHandlers();
     }
     App.prototype.connectDatabase = function () {
-        //provide a sensible default for local development
-        var mongodb_connection_string = "mongodb://35.177.16.180:27017/" + this.db_name;
-        //take advantage of env vars when available: need to set a enviroment var on the aws instance and save its image for reuse
-        if (process.env.MONGODB_URL) {
-            mongodb_connection_string = process.env.MONGODB_URL + this.db_name;
-        }
-        mongoose.connect(mongodb_connection_string);
-        var db = mongoose.connection;
-        db.on("error", function (err) {
-            console.error("db connection error", err);
-        });
-        db.once("open", function () {
-            console.log("db connection successful");
+        console.log('Connecting to database...');
+        var sequelize = new Sequelize('blog', 'postgres', 'saltwater9', {
+            host: 'localhost',
+            dialect: 'postgres',
+            pool: {
+                max: 5,
+                min: 0,
+                acquire: 30000,
+                idle: 10000
+            }
         });
     };
     App.prototype.registerMiddleware = function () {
