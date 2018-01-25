@@ -10,12 +10,7 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
-            postedOn: {
-                type: DataTypes.DATE,
-                defaultValue: Date.now()
-            },
             body: DataTypes.Text,
-            postedBy: DataTypes.INTEGER,
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE
@@ -28,7 +23,7 @@ module.exports = {
                 type: Sequelize.INTEGER,
                 onDelete: 'CASCADE',
                 references: {
-                    model: 'Post',
+                    model: 'Posts',
                     key: 'id',
                     as: 'postId'
                 }
@@ -37,7 +32,7 @@ module.exports = {
                 type: Sequelize.INTEGER,
                 onDelete: 'CASCADE',
                 references: {
-                    model: 'User',
+                    model: 'Users',
                     key: 'id',
                     as: 'userId'
                 }

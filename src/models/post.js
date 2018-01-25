@@ -15,17 +15,17 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         classMethods: {
             associate: function(models) {
-                // associations can be defined here
+                Post.hasMany(models.Comment, {
+                    foreignKey: 'id',
+                    as: 'comments'
+                });
+                Post.belongsTo(models.User, {
+                    foreignKey: 'id',
+                    onDelete: 'CASCADE',
+                });
             }
         }
     });
-
-    Post.associate = (models) => {
-        Post.hasMany(models.Comment, {
-            foreignKey: 'id',
-            as: 'comments'
-        });
-    };
     
     return Post;
 };

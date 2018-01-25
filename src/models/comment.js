@@ -3,26 +3,21 @@ var DataTypes = require('sequelize/lib/data-types');
 
 module.exports = (sequelize, DataTypes) => {
     const Comment = sequelize.define('Comment', {
-        postedOn: {
-            type: DataTypes.DATE,
-            defaultValue: Date.now()
-        },
-        body: DataTypes.Text,
-        postedBy: DataTypes.INTEGER,
+        body: DataTypes.Text
     }, {
         classMethods: {
             associate: function(models) {
-                // associations can be defined here
+                Comment.belongsTo(models.Post, {
+                    foreignKey: 'id',
+                    onDelete: 'CASCADE',
+                });
+                Comment.belongsTo(models.User, {
+                    foreignKey: 'id',
+                    onDelete: 'CASCADE',
+                });
             }
         }
     });
-
-    Comment.associate = (models) => {
-        Comment.belongsTo(models.Post, {
-            foreignKey: 'id',
-            onDelete: 'CASCADE',
-        });
-    };
 
     return Comment;
 };

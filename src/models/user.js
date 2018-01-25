@@ -10,21 +10,17 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         classMethods: {
             associate: function(models) {
-                // associations can be defined here
+                User.hasMany(models.Post, {
+                    foreignKey: 'id',
+                    as: 'posts'
+                });
+                User.hasMany(models.Comment, {
+                    foreignKey: 'id',
+                    as: 'comments'
+                });
             }
         }
     });
-
-    User.associate = (models) => {
-        User.hasMany(models.Post, {
-            foreignKey: 'id',
-            as: 'posts'
-        });
-        User.hasMany(models.Comment, {
-            foreignKey: 'id',
-            as: 'comments'
-        });
-    };
     
     return User;
 };
