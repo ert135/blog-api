@@ -1,4 +1,6 @@
-'use strict';
+var Sequelize = require('sequelize');
+var DataTypes = require('sequelize/lib/data-types');
+
 module.exports = (sequelize, DataTypes) => {
     const Comment = sequelize.define('Comment', {
         postedOn: {
@@ -16,14 +18,6 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Comment.associate = (models) => {
-        Comment.hasMany(models.User, {
-            foreignKey: 'id',
-            as: 'postId'
-        });
-        Comment.hasMany(models.Post, {
-            foreignKey: 'id',
-            as: 'commentId'
-        });
         Comment.belongsTo(models.Post, {
             foreignKey: 'id',
             onDelete: 'CASCADE',

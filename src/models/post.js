@@ -1,4 +1,6 @@
-'use strict';
+var Sequelize = require('sequelize');
+var DataTypes = require('sequelize/lib/data-types');
+
 module.exports = (sequelize, DataTypes) => {
     const Post = sequelize.define('Post', {
         title: DataTypes.STRING,
@@ -19,11 +21,11 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Post.associate = (models) => {
-        Post.hasMany(models.User, {
+        Post.hasMany(models.Comment, {
             foreignKey: 'id',
-            as: 'user'
+            as: 'comments'
         });
     };
-
+    
     return Post;
 };

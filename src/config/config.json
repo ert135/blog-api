@@ -1,9 +1,10 @@
 {
   "development": {
-    "username": "root",
+    "username": "postgres",
     "password": "saltwater9",
-    "database": "blog",
+    "database": "postgres",
     "host": "127.0.0.1",
+    "port": 5432,
     "dialect": "postgres"
   },
   "test": {
@@ -16,7 +17,7 @@
   "production": {
     "username": "root",
     "password": null,
-    "database": "database_production",
+    "database": "blog",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }
