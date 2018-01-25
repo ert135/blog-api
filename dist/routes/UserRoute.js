@@ -12,7 +12,6 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var jwt = require("jsonwebtoken");
 var express = require("express");
-var user_js_1 = require("../models/user.js");
 var extractToken_1 = require("../utils/extractToken");
 var Route_1 = require("./Route");
 var UserRoute = /** @class */ (function (_super) {
@@ -26,16 +25,6 @@ var UserRoute = /** @class */ (function (_super) {
         var _this = this;
         return this.router.get('/', function (req, res, next) {
             jwt.verify(extractToken_1.extractToken(req), _this.secret, function (err, decoded) {
-                if (err) {
-                    return next(err);
-                }
-                else {
-                    user_js_1.User.find({}, null, { sort: { id: -1 } }, function (err, posts) {
-                        if (err)
-                            return next(err);
-                        res.json(posts);
-                    });
-                }
             });
         });
     };

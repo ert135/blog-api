@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
 import { comment, CommentSchema } from '../models/comment.js';
-import { Post } from '../models/posts.js';
+// import { Post } from '../models/posts.js';
 import { IUser } from '../interfaces/IUserDocument';
 import { NextFunction, Request, Response, Router } from "express";
 import { Route } from './Route';
@@ -18,26 +18,7 @@ export class PostRoute extends Route {
     registerRoute(): express.Router {
         //get post listing
         this.router.get('/', function(req, res, next) {
-            Post.find({}, null, {
-                sort: {
-                    id: -1
-                }
-            }, function(err, posts) {
-                if (err) return next(err);
-                var transformedPosts = posts.map(function(post, array, posts) {
-                    return {
-                        id: post._id,
-                        title: post.title,
-                        pictureUrl: post.pictureUrl,
-                        postedOn: post.postedOn,
-                        postedBy: post.postedBy,
-                        subtitle: post.subtitle,
-                        top: post.top,
-                        comments: post.comments.length ? post.comments.length : 0
-                    }
-                })
-                res.json(transformedPosts);
-            })
+
         });
 
         //POST new post
@@ -59,24 +40,7 @@ export class PostRoute extends Route {
 
             if (token) {
                 jwt.verify(token, this.secret, function(err, decoded) {
-                    if (err) {
-                        return next(err);
-                    } else {
-                        Post.create({
-                            type: "normal",
-                            title: req.body.title,
-                            pictureUrl: req.body.pictureUrl,
-                            postedOn: req.body.postedOn || null,
-                            postedBy: req.body.postedBy,
-                            postBody: req.body.postBody,
-                            subtitle: req.body.subtitle,
-                            top: false
-                        }, function(err, newPost) {
-                            if (err) return next(err)
-                            res.status(201);
-                            res.json(newPost);
-                        })
-                    }
+
                 });
             } else {
                 var err = new Error("No Token provided");
@@ -91,27 +55,7 @@ export class PostRoute extends Route {
 
             if (token) {
                 jwt.verify(token, this.secret, (err, decoded) => {
-                    if (err) {
-                        return next(err);
-                    } else {
-                        const query = {
-                            _id: req.params.id
-                        };
-                        Post.findOne(query, function (err, doc){
-                            if(err) return next(err)
-                            if (doc) {
-                                Post.findOneAndUpdate(query, {
-                                    title: req.body.newData.title ? req.body.newData.title : doc.title,
-                                    pictureUrl: req.body.newData.pictureUrl ? req.body.newData.pictureUrl : doc.pictureUrl,
-                                    postBody: req.body.newData.postBody ? req.body.newData.postBody : doc.postBody,
-                                    subtitle: req.body.newData.subtitle ? req.body.newData.subtitle :  doc.subtitle
-                                }, {upsert: true, 'new': true}, function(err, doc) {
-                                    if (err) return next(err);
-                                    return res.send(doc);
-                                });
-                            }
-                        });
-                    }
+                   
                 });
             } else {
                 var err = new Error("No Token provided");
@@ -121,17 +65,7 @@ export class PostRoute extends Route {
 
         //get one post
         this.router.get('/:id', function(req, res, next) {
-            Post.find({
-                _id: req.params.id
-            }, function(err, post) {
-                if (err) return next(err)
-                if (!post || post.length == 0) {
-                    var error: any = new Error("Post Not found");
-                    error.status = 404;
-                    return next(error);
-                }
-                res.json(post);
-            })
+        
         });
 
         //post a comment
@@ -152,8 +86,6 @@ export class PostRoute extends Route {
 
             const token = extractToken(req).substring(7);
 
-            console.log('Token is ', token);
-
             if (!token) {
                 var err = new Error("No Token Provied");
                 return next(err);
@@ -165,19 +97,7 @@ export class PostRoute extends Route {
                         return next(err);
                     } else {
                         //update logic to go here
-                        Post.findOne({
-                            _id: req.params.id
-                        }, function(err, post : any) {
-                            if (err) return err;
-                            if (!post || post.length == 0) {
-                                var error: any = new Error("Post Not found");
-                                error.status = 404;
-                                return next(error);
-                            }
-                            post.comments.push(newComment);
-                            post.save(post);
-                            res.json(post);
-                        });
+                     
                     }
                 });
             }
@@ -200,19 +120,7 @@ export class PostRoute extends Route {
                             return next(err);
                         } else {
                             //update logic to go here
-                            Post.findOne({
-                                _id: req.params.id
-                            }, function(err, post: any) {
-                                if (err) return err;
-                                if (!post || post.length == 0) {
-                                    var error: any = new Error("Post Not found");
-                                    error.status = 404;
-                                    return next(error);
-                                }
-                                post.comments.pull({_id : req.params.commentId});
-                                post.save();
-                                res.json(post);
-                            });
+                         
                         }
                     } else {
                         let err = new Error("Need admin permissions to delete comments");
@@ -225,6 +133,5 @@ export class PostRoute extends Route {
         })
 
         return this.router;
-
     }
 }

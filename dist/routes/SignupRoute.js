@@ -11,8 +11,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
-var jwt = require("jsonwebtoken");
-var user_js_1 = require("../models/user.js");
 var Route_1 = require("./Route");
 var SignupRoute = /** @class */ (function (_super) {
     __extends(SignupRoute, _super);
@@ -22,7 +20,6 @@ var SignupRoute = /** @class */ (function (_super) {
         return _this;
     }
     SignupRoute.prototype.registerRoute = function () {
-        var _this = this;
         return this.router.post('/', function (req, res, next) {
             if (req.body.name &&
                 req.body.email &&
@@ -39,25 +36,6 @@ var SignupRoute = /** @class */ (function (_super) {
                     password: req.body.password,
                     type: 'user'
                 };
-                user_js_1.User.create(userData, function (error, user) {
-                    if (error) {
-                        return next(error);
-                    }
-                    else {
-                        var token = jwt.sign({
-                            name: user.name,
-                            email: user.email,
-                            id: user._id
-                        }, _this.secret, {
-                            expiresIn: '1440m'
-                        });
-                        res.json({
-                            success: true,
-                            message: 'Success',
-                            token: token
-                        });
-                    }
-                });
             }
             else {
                 var err = new Error('All Fields required');

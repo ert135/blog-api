@@ -2,7 +2,7 @@ import * as bcrypt from 'bcryptjs';
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
 import { User, UserSchema } from '../models/user.js';
-import { Post } from '../models/posts.js'
+// import { Post } from '../models/posts.js'
 import { IUser } from '../interfaces/IUserDocument';
 import { Route } from './Route'
 
@@ -32,25 +32,7 @@ export class SignupRoute extends Route {
                     name: req.body.name,
                     password: req.body.password,
                     type: 'user'
-                }
-                User.create(userData, (error, user) => {
-                    if (error) {
-                        return next(error);
-                    }else {
-                        const token = jwt.sign({
-                            name: user.name,
-                            email: user.email,
-                            id: user._id
-                        }, this.secret, {
-                            expiresIn : '1440m'
-                        })
-                        res.json({
-                            success: true,
-                            message: 'Success',
-                            token: token
-                        })
-                    }
-                });
+                };
             } else {
                 let err: any = new Error('All Fields required');
                 err.status = 400;

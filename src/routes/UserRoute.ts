@@ -17,14 +17,7 @@ export class UserRoute extends Route {
     public registerRoute(): express.Router {
         return this.router.get('/', (req, res, next) => {
             jwt.verify(extractToken(req), this.secret, (err, decoded) => {      
-                if (err) {
-                    return next(err);
-                } else {
-                    User.find({}, null, {sort: {id: -1}}, (err, posts) => {
-                    if(err) return next(err);
-                        res.json(posts);
-                    })
-                }
+             
             });
         });
     }

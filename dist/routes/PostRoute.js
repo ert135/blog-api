@@ -12,7 +12,6 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var jwt = require("jsonwebtoken");
-var posts_js_1 = require("../models/posts.js");
 var Route_1 = require("./Route");
 var extractToken_1 = require("../utils/extractToken");
 var PostRoute = /** @class */ (function (_super) {
@@ -26,27 +25,6 @@ var PostRoute = /** @class */ (function (_super) {
         var _this = this;
         //get post listing
         this.router.get('/', function (req, res, next) {
-            posts_js_1.Post.find({}, null, {
-                sort: {
-                    id: -1
-                }
-            }, function (err, posts) {
-                if (err)
-                    return next(err);
-                var transformedPosts = posts.map(function (post, array, posts) {
-                    return {
-                        id: post._id,
-                        title: post.title,
-                        pictureUrl: post.pictureUrl,
-                        postedOn: post.postedOn,
-                        postedBy: post.postedBy,
-                        subtitle: post.subtitle,
-                        top: post.top,
-                        comments: post.comments.length ? post.comments.length : 0
-                    };
-                });
-                res.json(transformedPosts);
-            });
         });
         //POST new post
         this.router.post('/', function (req, res, next) {
@@ -62,26 +40,6 @@ var PostRoute = /** @class */ (function (_super) {
             var token = extractToken_1.extractToken(req).substring(7);
             if (token) {
                 jwt.verify(token, this.secret, function (err, decoded) {
-                    if (err) {
-                        return next(err);
-                    }
-                    else {
-                        posts_js_1.Post.create({
-                            type: "normal",
-                            title: req.body.title,
-                            pictureUrl: req.body.pictureUrl,
-                            postedOn: req.body.postedOn || null,
-                            postedBy: req.body.postedBy,
-                            postBody: req.body.postBody,
-                            subtitle: req.body.subtitle,
-                            top: false
-                        }, function (err, newPost) {
-                            if (err)
-                                return next(err);
-                            res.status(201);
-                            res.json(newPost);
-                        });
-                    }
                 });
             }
             else {
@@ -94,30 +52,6 @@ var PostRoute = /** @class */ (function (_super) {
             var token = extractToken_1.extractToken(req).substring(7);
             if (token) {
                 jwt.verify(token, _this.secret, function (err, decoded) {
-                    if (err) {
-                        return next(err);
-                    }
-                    else {
-                        var query_1 = {
-                            _id: req.params.id
-                        };
-                        posts_js_1.Post.findOne(query_1, function (err, doc) {
-                            if (err)
-                                return next(err);
-                            if (doc) {
-                                posts_js_1.Post.findOneAndUpdate(query_1, {
-                                    title: req.body.newData.title ? req.body.newData.title : doc.title,
-                                    pictureUrl: req.body.newData.pictureUrl ? req.body.newData.pictureUrl : doc.pictureUrl,
-                                    postBody: req.body.newData.postBody ? req.body.newData.postBody : doc.postBody,
-                                    subtitle: req.body.newData.subtitle ? req.body.newData.subtitle : doc.subtitle
-                                }, { upsert: true, 'new': true }, function (err, doc) {
-                                    if (err)
-                                        return next(err);
-                                    return res.send(doc);
-                                });
-                            }
-                        });
-                    }
                 });
             }
             else {
@@ -127,18 +61,6 @@ var PostRoute = /** @class */ (function (_super) {
         });
         //get one post
         this.router.get('/:id', function (req, res, next) {
-            posts_js_1.Post.find({
-                _id: req.params.id
-            }, function (err, post) {
-                if (err)
-                    return next(err);
-                if (!post || post.length == 0) {
-                    var error = new Error("Post Not found");
-                    error.status = 404;
-                    return next(error);
-                }
-                res.json(post);
-            });
         });
         //post a comment
         this.router.post('/:id/comment', function (req, res, next) {
@@ -155,7 +77,6 @@ var PostRoute = /** @class */ (function (_super) {
                 userName: req.body.userName
             };
             var token = extractToken_1.extractToken(req).substring(7);
-            console.log('Token is ', token);
             if (!token) {
                 var err = new Error("No Token Provied");
                 return next(err);
@@ -168,20 +89,6 @@ var PostRoute = /** @class */ (function (_super) {
                     }
                     else {
                         //update logic to go here
-                        posts_js_1.Post.findOne({
-                            _id: req.params.id
-                        }, function (err, post) {
-                            if (err)
-                                return err;
-                            if (!post || post.length == 0) {
-                                var error = new Error("Post Not found");
-                                error.status = 404;
-                                return next(error);
-                            }
-                            post.comments.push(newComment);
-                            post.save(post);
-                            res.json(post);
-                        });
                     }
                 });
             }
@@ -201,20 +108,6 @@ var PostRoute = /** @class */ (function (_super) {
                         }
                         else {
                             //update logic to go here
-                            posts_js_1.Post.findOne({
-                                _id: req.params.id
-                            }, function (err, post) {
-                                if (err)
-                                    return err;
-                                if (!post || post.length == 0) {
-                                    var error = new Error("Post Not found");
-                                    error.status = 404;
-                                    return next(error);
-                                }
-                                post.comments.pull({ _id: req.params.commentId });
-                                post.save();
-                                res.json(post);
-                            });
                         }
                     }
                     else {
