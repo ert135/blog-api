@@ -26,5 +26,3 @@ export class AuthRoute extends Route {
         });
     }
 }
-
-

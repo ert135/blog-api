@@ -1,7 +1,8 @@
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
-import { comment, CommentSchema } from '../models/comment.js';
-// import { Post } from '../models/posts.js';
+import { Comment } from '../models/comment.js';
+import { Post } from '../models/post.js';
+
 import { IUser } from '../interfaces/IUserDocument';
 import { NextFunction, Request, Response, Router } from "express";
 import { Route } from './Route';
@@ -18,12 +19,19 @@ export class PostRoute extends Route {
     registerRoute(): express.Router {
         //get post listing
         this.router.get('/', function(req, res, next) {
-
+            const post = new Post({
+                title: 'bob', 
+                subtitle: 'subtitle',
+                pictureUrl: 'url',
+                postedOnDate: '2018-01-01',
+                top: true,
+                body: '<h1>Body</h1>'
+            });
+            post.save();
         });
 
         //POST new post
         this.router.post('/', function(req, res, next) {
-
             if (
                 req.body.title && 
                 req.body.pictureUrl &&

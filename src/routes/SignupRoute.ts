@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
-import { User, UserSchema } from '../models/user.js';
+import { User } from '../models/user.js';
 // import { Post } from '../models/posts.js'
 import { IUser } from '../interfaces/IUserDocument';
 import { Route } from './Route'

@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 var userModel = require('../models/user.js').User;
 var postSchema = require('../models/posts.js').postsSchema;
 var db_name = "blog";
-var mongodb_connection_string = "mongodb://35.177.16.180:27017/" + db_name;
+let mongodb_connection_string = "mongodb://35.177.16.180:27017/" + db_name;
 mongoose.connect(mongodb_connection_string);
 var db = mongoose.connection;
 db.on("error", function (err) {

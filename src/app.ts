@@ -1,5 +1,5 @@
 import * as express from "express";
-import * as Sequelize from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 
 import * as path from "path";
 import * as logger from "morgan";
@@ -31,16 +31,14 @@ export class App {
 
 	private connectDatabase(): void {
 		console.log('Connecting to database...');
-		const sequelize = new Sequelize('blog', 'postgres', 'saltwater9', {
-			host: 'localhost',
+		const sequelize =  new Sequelize({
+			database: 'blog',
 			dialect: 'postgres',
-			pool: {
-			  max: 5,
-			  min: 0,
-			  acquire: 30000,
-			  idle: 10000
-			}
+			username: 'root',
+			password: '',
+			modelPaths: [__dirname + '/dist/models']
 		});
+		console.log('database connected!!!');
 	}
 
 	private registerMiddleware(): void {
