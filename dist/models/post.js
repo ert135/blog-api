@@ -51,3 +51,4 @@ Post = __decorate([
     sequelize_typescript_1.Table
 ], Post);
 exports.Post = Post;
+//# sourceMappingURL=post.js.map

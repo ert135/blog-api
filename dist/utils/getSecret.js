@@ -4,3 +4,4 @@ const getSecret = () => {
     return process.env['JWT_SECRET'];
 };
 exports.getSecret = getSecret;
+//# sourceMappingURL=getSecret.js.map

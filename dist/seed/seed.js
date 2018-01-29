@@ -92,3 +92,4 @@ db.once("open", function () {
         });
     });
 });
+//# sourceMappingURL=seed.js.map

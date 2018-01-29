@@ -19,6 +19,7 @@ export class PostRoute extends Route {
     registerRoute(): express.Router {
         //get post listing
         this.router.get('/', function(req, res, next) {
+            console.log('Get called!!');
             const post = new Post({
                 title: 'bob', 
                 subtitle: 'subtitle',
@@ -27,6 +28,7 @@ export class PostRoute extends Route {
                 top: true,
                 body: '<h1>Body</h1>'
             });
+            console.log('post is ', post);
             post.save();
         });
 

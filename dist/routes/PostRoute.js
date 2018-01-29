@@ -21,6 +21,7 @@ class PostRoute extends Route_1.Route {
                 top: true,
                 body: '<h1>Body</h1>'
             });
+            console.log('post is ', post);
             post.save();
         });
         //POST new post
@@ -118,3 +119,4 @@ class PostRoute extends Route_1.Route {
     }
 }
 exports.PostRoute = PostRoute;
+//# sourceMappingURL=PostRoute.js.map

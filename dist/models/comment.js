@@ -41,3 +41,4 @@ Comment = __decorate([
     sequelize_typescript_1.Table
 ], Comment);
 exports.Comment = Comment;
+//# sourceMappingURL=comment.js.map
