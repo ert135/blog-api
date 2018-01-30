@@ -34,4 +34,3 @@ class SignupRoute extends Route_1.Route {
     }
 }
 exports.SignupRoute = SignupRoute;
-//# sourceMappingURL=SignupRoute.js.map

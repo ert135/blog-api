@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
-import { Comment } from '../models/comment.js';
-import { Post } from '../models/post.js';
+import Comment from '../models/comment.js';
+import Post from '../models/post.js';
 
 import { IUser } from '../interfaces/IUserDocument';
 import { NextFunction, Request, Response, Router } from "express";
@@ -20,16 +20,33 @@ export class PostRoute extends Route {
         //get post listing
         this.router.get('/', function(req, res, next) {
             console.log('Get called!!');
-            const post = new Post({
-                title: 'bob', 
-                subtitle: 'subtitle',
-                pictureUrl: 'url',
-                postedOnDate: '2018-01-01',
-                top: true,
-                body: '<h1>Body</h1>'
-            });
-            console.log('post is ', post);
-            post.save();
+            try{
+                let thing = Post.create({
+                    title: 'bob', 
+                    subtitle: 'subtitle',
+                    pictureUrl: 'url',
+                    postedOnDate: '2018-01-01',
+                    top: true,
+                    body: '<h1>Body</h1>'
+                });
+                console.log('post is ', thing);
+
+                res.json({
+                    response: thing
+                })
+            } catch (e) {
+                return next(e)
+            } 
+
+            
+            // try {
+            //     Post.create({
+            //       actorId: req.params['id'], movieId: req.params['movieId']
+            //     });
+            //     res.sendStatus(200);
+            //   } catch (e) {
+            //     next(e);
+            //   }
         });
 
         //POST new post
@@ -75,7 +92,9 @@ export class PostRoute extends Route {
 
         //get one post
         this.router.get('/:id', function(req, res, next) {
-        
+            res.json({
+                bob: 'bob'
+            })
         });
 
         //post a comment

@@ -20,4 +20,3 @@ class AuthRoute extends Route_1.Route {
     }
 }
 exports.AuthRoute = AuthRoute;
-//# sourceMappingURL=AuthRoute.js.map

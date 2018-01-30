@@ -13,16 +13,32 @@ class PostRoute extends Route_1.Route {
     registerRoute() {
         //get post listing
         this.router.get('/', function (req, res, next) {
-            const post = new post_js_1.Post({
-                title: 'bob',
-                subtitle: 'subtitle',
-                pictureUrl: 'url',
-                postedOnDate: '2018-01-01',
-                top: true,
-                body: '<h1>Body</h1>'
-            });
-            console.log('post is ', post);
-            post.save();
+            console.log('Get called!!');
+            try {
+                let thing = post_js_1.default.create({
+                    title: 'bob',
+                    subtitle: 'subtitle',
+                    pictureUrl: 'url',
+                    postedOnDate: '2018-01-01',
+                    top: true,
+                    body: '<h1>Body</h1>'
+                });
+                console.log('post is ', thing);
+                res.json({
+                    response: thing
+                });
+            }
+            catch (e) {
+                return next(e);
+            }
+            // try {
+            //     Post.create({
+            //       actorId: req.params['id'], movieId: req.params['movieId']
+            //     });
+            //     res.sendStatus(200);
+            //   } catch (e) {
+            //     next(e);
+            //   }
         });
         //POST new post
         this.router.post('/', function (req, res, next) {
@@ -59,6 +75,9 @@ class PostRoute extends Route_1.Route {
         });
         //get one post
         this.router.get('/:id', function (req, res, next) {
+            res.json({
+                bob: 'bob'
+            });
         });
         //post a comment
         this.router.post('/:id/comment', (req, res, next) => {
@@ -119,4 +138,3 @@ class PostRoute extends Route_1.Route {
     }
 }
 exports.PostRoute = PostRoute;
-//# sourceMappingURL=PostRoute.js.map

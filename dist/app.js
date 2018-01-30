@@ -25,10 +25,11 @@ class App {
             database: 'blog',
             dialect: 'postgres',
             username: 'root',
-            password: '',
-            modelPaths: [__dirname + '/dist/models']
+            password: 'password123',
+            modelPaths: [__dirname + '/models']
         });
         console.log('database connected!!!');
+        console.log('Model paths are ', __dirname + '/models');
     }
     registerMiddleware() {
         this.express.use(logger('dev'));
@@ -69,4 +70,3 @@ class App {
     }
 }
 exports.App = App;
-//# sourceMappingURL=app.js.map

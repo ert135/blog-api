@@ -17,4 +17,3 @@ class UserRoute extends Route_1.Route {
     }
 }
 exports.UserRoute = UserRoute;
-//# sourceMappingURL=UserRoute.js.map
