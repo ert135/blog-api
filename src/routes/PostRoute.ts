@@ -20,8 +20,8 @@ export class PostRoute extends Route {
         //get post listing
         this.router.get('/', function(req, res, next) {
             console.log('Get called!!');
-            try{
-                let thing = Post.create({
+            try {
+                let thing = new Post({
                     title: 'bob', 
                     subtitle: 'subtitle',
                     pictureUrl: 'url',
@@ -37,16 +37,6 @@ export class PostRoute extends Route {
             } catch (e) {
                 return next(e)
             } 
-
-            
-            // try {
-            //     Post.create({
-            //       actorId: req.params['id'], movieId: req.params['movieId']
-            //     });
-            //     res.sendStatus(200);
-            //   } catch (e) {
-            //     next(e);
-            //   }
         });
 
         //POST new post

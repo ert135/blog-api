@@ -41,6 +41,7 @@ export class App {
 		console.log('database connected!!!');
 		console.log('Model paths are ', __dirname + '/models')
 		
+		
 	}
 
 	private registerMiddleware(): void {

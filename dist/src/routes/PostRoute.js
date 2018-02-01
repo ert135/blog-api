@@ -15,7 +15,7 @@ class PostRoute extends Route_1.Route {
         this.router.get('/', function (req, res, next) {
             console.log('Get called!!');
             try {
-                let thing = new post_js_1.default({
+                let thing = post_js_1.default.create({
                     title: 'bob',
                     subtitle: 'subtitle',
                     pictureUrl: 'url',
@@ -31,6 +31,14 @@ class PostRoute extends Route_1.Route {
             catch (e) {
                 return next(e);
             }
+            // try {
+            //     Post.create({
+            //       actorId: req.params['id'], movieId: req.params['movieId']
+            //     });
+            //     res.sendStatus(200);
+            //   } catch (e) {
+            //     next(e);
+            //   }
         });
         //POST new post
         this.router.post('/', function (req, res, next) {

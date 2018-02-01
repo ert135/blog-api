@@ -51,3 +51,12 @@ Post = __decorate([
     sequelize_typescript_1.Table
 ], Post);
 exports.default = Post;
+let UserModel = (sequelize, DataTypes) => {
+    var User = sequelize.define('User', {
+        username: DataTypes.STRING
+    });
+    User.associate = function (models) {
+        models.User.hasMany(models.Task);
+    };
+    return User;
+};

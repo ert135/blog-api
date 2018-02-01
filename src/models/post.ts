@@ -31,3 +31,15 @@ export default class Post extends Model<Post> {
     @BelongsTo(() => User)
     user: User;
 }
+
+let UserModel = (sequelize, DataTypes) => {
+    var User = sequelize.define('User', {
+      username: DataTypes.STRING
+    });
+  
+    User.associate = function(models) {
+      models.User.hasMany(models.Task);
+    };
+  
+    return User;
+  };
