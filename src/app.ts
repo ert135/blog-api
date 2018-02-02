@@ -11,13 +11,17 @@ import { UserRoute } from "./routes/UserRoute";
 import { SignupRoute } from "./routes/SignupRoute";
 import { AuthRoute } from "./routes/AuthRoute";
 
+import Post from './models/Post';
+import Comment from './models/Comment';
+import User from './models/User';
+
 import * as bearerToken from "express-bearer-token";
 
 export class App {
 
 	private express: express.Application;
 	private db_name: string;
-	private router: express.Router
+	private router: express.Router;
 
 	constructor() {
 		this.express = express();
@@ -36,12 +40,13 @@ export class App {
 			dialect: 'postgres',
 			username: 'root',
 			password: 'password123',
-			modelPaths: [__dirname + '/models']
 		});
 		console.log('database connected!!!');
-		console.log('Model paths are ', __dirname + '/models')
-		
-		
+
+		// modelPaths: [__dirname + '/models']
+		sequelize.addModels([Post, Comment, User]);
+		// sequelize.addModels([Comment]);
+		// sequelize.addModels([User]);
 	}
 
 	private registerMiddleware(): void {

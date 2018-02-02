@@ -1,6 +1,6 @@
 import { Model, Column, Table, BelongsToMany, Scopes, CreatedAt, UpdatedAt, HasMany, ForeignKey } from "sequelize-typescript";
-import Post from './post'
-import Comment from './comment'
+import Post from './Post'
+import Comment from './Comment'
 
 @Table
 export default class User extends Model<User> {
@@ -21,4 +21,8 @@ export default class User extends Model<User> {
 
     @HasMany(() => Post)
     posts: Post[];
+
+    @ForeignKey(() => User)
+    @Column
+    userId: number;
 }

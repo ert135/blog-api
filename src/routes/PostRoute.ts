@@ -17,12 +17,11 @@ export class PostRoute extends Route {
     }
 
     registerRoute(): express.Router {
-        //get post listing
         this.router.get('/', function(req, res, next) {
             console.log('Get called!!');
             try {
                 let thing = new Post({
-                    title: 'bob', 
+                    title: 'bob',
                     subtitle: 'subtitle',
                     pictureUrl: 'url',
                     postedOnDate: '2018-01-01',
@@ -36,18 +35,18 @@ export class PostRoute extends Route {
                 })
             } catch (e) {
                 return next(e)
-            } 
+            }
         });
 
         //POST new post
         this.router.post('/', function(req, res, next) {
             if (
-                req.body.title && 
+                req.body.title &&
                 req.body.pictureUrl &&
                 req.body.postedBy &&
                 req.body.postBody &&
-                req.body.subtitle 
-            ) {} 
+                req.body.subtitle
+            ) {}
             else {
                 var err = new Error("Not All required fields present");
                 return next(err);

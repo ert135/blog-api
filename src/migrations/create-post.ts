@@ -3,7 +3,8 @@ var DataTypes = require('sequelize/lib/data-types');
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('Posts', {
+        console.log('thing is here');
+        return queryInterface.createTable('Post', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -36,6 +37,8 @@ module.exports = {
                     as: 'userId'
                 }
             }
+        }).then((thing) => {
+            console.log('thing is ', thing);
         });
     },
     down: (queryInterface, Sequelize) => {

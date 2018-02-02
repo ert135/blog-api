@@ -5,8 +5,8 @@ export abstract class Route {
 
     protected secret: string;
 
-    constructor() { 
+    constructor() {
         this.secret = getSecret();
     }
 
-}
+};
