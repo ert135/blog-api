@@ -25,9 +25,9 @@ class App {
     connectDatabase() {
         console.log('Connecting to database...');
         const sequelize = new sequelize_typescript_1.Sequelize({
-            database: 'blog',
+            database: 'postgres',
             dialect: 'postgres',
-            username: 'root',
+            username: 'postgres',
             password: 'password123',
         });
         console.log('database connected!!!');

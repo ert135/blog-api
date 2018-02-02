@@ -2,34 +2,20 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const post_js_1 = require("../models/post.js");
 const Route_1 = require("./Route");
 const extractToken_1 = require("../utils/extractToken");
+const PostRepository_1 = require("../repositories/PostRepository");
 class PostRoute extends Route_1.Route {
     constructor() {
         super();
         this.router = express.Router();
+        console.log('Constructor post route called!!!');
+        this.postRepo = new PostRepository_1.default();
     }
     registerRoute() {
-        this.router.get('/', function (req, res, next) {
-            console.log('Get called!!');
-            try {
-                let thing = new post_js_1.default({
-                    title: 'bob',
-                    subtitle: 'subtitle',
-                    pictureUrl: 'url',
-                    postedOnDate: '2018-01-01',
-                    top: true,
-                    body: '<h1>Body</h1>'
-                });
-                console.log('post is ', thing);
-                res.json({
-                    response: thing
-                });
-            }
-            catch (e) {
-                return next(e);
-            }
+        this.router.get('/', (req, res, next) => {
+            console.log('Get called!!', this);
+            this.postRepo.listAll();
         });
         //POST new post
         this.router.post('/', function (req, res, next) {
