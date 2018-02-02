@@ -11,7 +11,6 @@ class PostRoute extends Route_1.Route {
         this.router = express.Router();
     }
     registerRoute() {
-        //get post listing
         this.router.get('/', function (req, res, next) {
             console.log('Get called!!');
             try {
