@@ -2,13 +2,13 @@ var Sequelize = require('sequelize');
 var DataTypes = require('sequelize/lib/data-types');
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        console.log('Migration happening')
-        return queryInterface.createTable('Posts', {
+        console.log('thing is here');
+        return queryInterface.createTable('Post', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.DataTypes.INTEGER
+                type: Sequelize.INTEGER
             },
             title: DataTypes.STRING,
             subtitle: DataTypes.STRING,
@@ -21,13 +21,26 @@ module.exports = {
             body: DataTypes.TEXT,
             createdAt: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
+                defaultValue: Sequelize.literal('NOW()')
+            },
+            updatedAt: {
+                allowNull: false,
+                type: Sequelize.DATE,
+                defaultValue: Sequelize.literal('NOW()')
+            },
+            userId: {
+                type: Sequelize.INTEGER,
+                onDelete: 'CASCADE',
+                references: {
+                    model: 'Users',
+                    key: 'id',
+                    as: 'userId'
+                }
             }
-        })
-        .then(function(results) {
-            console.log('results are ', results);
-            // results will be the result of the first query
-        });;
+        }).then((thing) => {
+            console.log('thing is ', thing);
+        });
     },
     down: (queryInterface, Sequelize) => {
         return queryInterface.dropTable('Posts');

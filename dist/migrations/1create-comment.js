@@ -2,28 +2,28 @@ var Sequelize = require('sequelize');
 var DataTypes = require('sequelize/lib/data-types');
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('Users', {
+        console.log('datatypes are ', DataTypes);
+        return queryInterface.createTable('Comments', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER
+                type: Sequelize.DataTypes.INTEGER
             },
-            username: DataTypes.STRING,
-            password: DataTypes.STRING,
-            email: DataTypes.STRING,
-            admin: DataTypes.BOOLEAN,
+            body: DataTypes.Text,
             createdAt: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DataTypes.DATE,
+                defaultValue: Sequelize.literal('NOW()')
             },
             updatedAt: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DataTypes.DATE,
+                defaultValue: Sequelize.literal('NOW()')
             }
         });
     },
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('Users');
+        return queryInterface.dropTable('Comments');
     }
 };
