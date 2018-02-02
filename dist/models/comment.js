@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
-const user_1 = require("./user");
-const post_1 = require("./post");
+const User_1 = require("./User");
+const Post_1 = require("./Post");
 const sequelize_typescript_2 = require("sequelize-typescript");
 let Comment = class Comment extends sequelize_typescript_1.Model {
 };
@@ -20,23 +20,23 @@ __decorate([
     __metadata("design:type", String)
 ], Comment.prototype, "body", void 0);
 __decorate([
-    sequelize_typescript_1.ForeignKey(() => post_1.default),
+    sequelize_typescript_1.ForeignKey(() => Post_1.default),
     sequelize_typescript_1.Column,
     __metadata("design:type", Number)
 ], Comment.prototype, "postId", void 0);
 __decorate([
-    sequelize_typescript_1.BelongsTo(() => post_1.default),
-    __metadata("design:type", post_1.default)
+    sequelize_typescript_1.BelongsTo(() => Post_1.default),
+    __metadata("design:type", Post_1.default)
 ], Comment.prototype, "post", void 0);
 __decorate([
-    sequelize_typescript_1.ForeignKey(() => user_1.default),
+    sequelize_typescript_1.BelongsTo(() => User_1.default),
+    __metadata("design:type", User_1.default)
+], Comment.prototype, "user", void 0);
+__decorate([
+    sequelize_typescript_1.ForeignKey(() => User_1.default),
     sequelize_typescript_1.Column,
     __metadata("design:type", Number)
 ], Comment.prototype, "userId", void 0);
-__decorate([
-    sequelize_typescript_1.BelongsTo(() => user_1.default),
-    __metadata("design:type", user_1.default)
-], Comment.prototype, "user", void 0);
 Comment = __decorate([
     sequelize_typescript_1.Table
 ], Comment);

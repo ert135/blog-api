@@ -1,1 +1,0 @@
-{"version":3,"file":"extractToken.js","sourceRoot":"","sources":["../../src/utils/extractToken.ts"],"names":[],"mappings":";;AAAA,IAAI,YAAY,GAAG,CAAC,GAAG,EAAU,EAAE;IAC/B,MAAM,CAAC,GAAG,CAAC,IAAI,CAAC,KAAK,IAAI,GAAG,CAAC,KAAK,CAAC,KAAK,IAAI,GAAG,CAAC,OAAO,CAAC,eAAe,CAAC,CAAC;AAC7E,CAAC,CAAA;AAGG,oCAAY"}

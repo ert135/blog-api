@@ -10,9 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
-const post_1 = require("./post");
-const comment_1 = require("./comment");
-let User = class User extends sequelize_typescript_1.Model {
+const Post_1 = require("./Post");
+const Comment_1 = require("./Comment");
+let User = User_1 = class User extends sequelize_typescript_1.Model {
 };
 __decorate([
     sequelize_typescript_1.Column,
@@ -31,14 +31,20 @@ __decorate([
     __metadata("design:type", Boolean)
 ], User.prototype, "admin", void 0);
 __decorate([
-    sequelize_typescript_1.HasMany(() => comment_1.default),
+    sequelize_typescript_1.HasMany(() => Comment_1.default),
     __metadata("design:type", Array)
 ], User.prototype, "comments", void 0);
 __decorate([
-    sequelize_typescript_1.HasMany(() => post_1.default),
+    sequelize_typescript_1.HasMany(() => Post_1.default),
     __metadata("design:type", Array)
 ], User.prototype, "posts", void 0);
-User = __decorate([
+__decorate([
+    sequelize_typescript_1.ForeignKey(() => User_1),
+    sequelize_typescript_1.Column,
+    __metadata("design:type", Number)
+], User.prototype, "userId", void 0);
+User = User_1 = __decorate([
     sequelize_typescript_1.Table
 ], User);
 exports.default = User;
+var User_1;
