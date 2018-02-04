@@ -36,13 +36,13 @@ export class App {
 	private connectDatabase(): void {
 		console.log('Connecting to database...');
 		const sequelize =  new Sequelize({
-			database: 'blog',
+			database: 'postgres',
 			dialect: 'postgres',
-			username: 'root',
+			username: 'postgres',
 			password: 'password123',
+			port: 5433,
 		});
 		console.log('database connected!!!');
-
 		// modelPaths: [__dirname + '/models']
 		sequelize.addModels([Post, Comment, User]);
 		// sequelize.addModels([Comment]);

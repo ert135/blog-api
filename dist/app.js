@@ -29,6 +29,7 @@ class App {
             dialect: 'postgres',
             username: 'postgres',
             password: 'password123',
+            port: 5433,
         });
         console.log('database connected!!!');
         // modelPaths: [__dirname + '/models']
