@@ -14,11 +14,6 @@ export default class Post extends Model<Post> {
     @Column
     pictureUrl: String;
 
-    @Column(DataType.DATE)
-    postedOnDate: {
-        type: Date
-    };
-
     @Column
     top: Boolean;
 

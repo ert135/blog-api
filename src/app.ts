@@ -44,7 +44,7 @@ export class App {
 		});
 		console.log('database connected!!!');
 		// modelPaths: [__dirname + '/models']
-		sequelize.addModels([Post, Comment, User]);
+		// sequelize.addModels([Post]);
 		// sequelize.addModels([Comment]);
 		// sequelize.addModels([User]);
 	}

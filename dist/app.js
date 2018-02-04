@@ -33,9 +33,9 @@ class App {
         });
         console.log('database connected!!!');
         // modelPaths: [__dirname + '/models']
-        sequelize.addModels([Post_1.default, Comment_1.default, User_1.default]);
-        // sequelize.addModels([Comment]);
-        // sequelize.addModels([User]);
+        sequelize.addModels([Post_1.default]);
+        sequelize.addModels([Comment_1.default]);
+        sequelize.addModels([User_1.default]);
     }
     registerMiddleware() {
         this.express.use(logger('dev'));

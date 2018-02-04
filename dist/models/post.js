@@ -28,10 +28,6 @@ __decorate([
     __metadata("design:type", String)
 ], Post.prototype, "pictureUrl", void 0);
 __decorate([
-    sequelize_typescript_1.Column(sequelize_typescript_2.DataType.DATE),
-    __metadata("design:type", Object)
-], Post.prototype, "postedOnDate", void 0);
-__decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", Boolean)
 ], Post.prototype, "top", void 0);

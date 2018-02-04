@@ -15,11 +15,13 @@ module.exports = {
             admin: DataTypes.BOOLEAN,
             createdAt: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
+                defaultValue: Sequelize.literal('NOW()')
             },
             updatedAt: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
+                defaultValue: Sequelize.literal('NOW()')
             }
         }).then(() => {
             return queryInterface.createTable('Post', {
@@ -32,19 +34,17 @@ module.exports = {
                 title: DataTypes.STRING,
                 subtitle: DataTypes.STRING,
                 pictureUrl: DataTypes.STRING,
-                postedOnDate: {
-                    type: DataTypes.DATE,
-                    defaultValue: Date.now()
-                },
                 top: DataTypes.BOOLEAN,
                 body: DataTypes.TEXT,
                 createdAt: {
                     allowNull: false,
-                    type: Sequelize.DATE
+                    type: Sequelize.DATE,
+                    defaultValue: Sequelize.literal('NOW()')
                 },
                 updatedAt: {
                     allowNull: false,
-                    type: Sequelize.DATE
+                    type: Sequelize.DATE,
+                    defaultValue: Sequelize.literal('NOW()')
                 },
                 userId: {
                     type: Sequelize.INTEGER,
@@ -67,11 +67,13 @@ module.exports = {
                 body: Sequelize.DataTypes.TEXT,
                 createdAt: {
                     allowNull: false,
-                    type: Sequelize.DataTypes.DATE
+                    type: Sequelize.DataTypes.DATE,
+                    defaultValue: Sequelize.literal('NOW()')
                 },
                 updatedAt: {
                     allowNull: false,
-                    type: Sequelize.DataTypes.DATE
+                    type: Sequelize.DataTypes.DATE,
+                    defaultValue: Sequelize.literal('NOW()')
                 },
                 postId: {
                     type: Sequelize.DataTypes.INTEGER,

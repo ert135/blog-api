@@ -5,7 +5,7 @@ class BaseRepository {
         this.model = model;
     }
     listAll() {
-        console.log('list all called!!');
+        console.log('listall called!!!');
         return this.model.findAll({
             where: {
                 id: {

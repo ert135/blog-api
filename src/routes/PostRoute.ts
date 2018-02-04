@@ -7,31 +7,24 @@ import { IUser } from '../interfaces/IUserDocument';
 import { NextFunction, Request, Response, Router } from "express";
 import { Route } from './Route';
 import { extractToken } from '../utils/extractToken';
+import PostRepository from '../repositories/PostRepository';
 
 export class PostRoute extends Route {
 
     private router = express.Router();
+    private postRepo: PostRepository;
 
     constructor() {
         super();
+        this.postRepo = new PostRepository();
     }
 
     registerRoute(): express.Router {
-        this.router.get('/', function(req, res, next) {
+        this.router.get('/', (req, res, next) => {
             console.log('Get called!!');
             try {
-                let thing = new Post({
-                    title: 'bob',
-                    subtitle: 'subtitle',
-                    pictureUrl: 'url',
-                    postedOnDate: '2018-01-01',
-                    top: true,
-                    body: '<h1>Body</h1>'
-                });
-                console.log('post is ', thing);
-
                 res.json({
-                    response: thing
+                    posts: this.postRepo.listAll()
                 })
             } catch (e) {
                 return next(e)
