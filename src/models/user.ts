@@ -21,8 +21,4 @@ export default class User extends Model<User> {
 
     @HasMany(() => Post)
     posts: Post[];
-
-    @ForeignKey(() => User)
-    @Column
-    userId: number;
 }

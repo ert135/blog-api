@@ -20,14 +20,14 @@ __decorate([
     __metadata("design:type", String)
 ], Comment.prototype, "body", void 0);
 __decorate([
-    sequelize_typescript_1.ForeignKey(() => Post_1.default),
-    sequelize_typescript_1.Column,
-    __metadata("design:type", Number)
-], Comment.prototype, "postId", void 0);
-__decorate([
     sequelize_typescript_1.BelongsTo(() => Post_1.default),
     __metadata("design:type", Post_1.default)
 ], Comment.prototype, "post", void 0);
+__decorate([
+    sequelize_typescript_1.ForeignKey(() => Post_1.default),
+    sequelize_typescript_1.Column,
+    __metadata("design:type", Number)
+], Comment.prototype, "postid", void 0);
 __decorate([
     sequelize_typescript_1.BelongsTo(() => User_1.default),
     __metadata("design:type", User_1.default)

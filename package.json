@@ -50,15 +50,13 @@
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",
     "reflect-metadata": "^0.1.12",
-    "sequelize": "^4.32.1",
+    "sequelize": "^4.33.3",
     "sequelize-typescript": "^0.6.2",
     "serve-favicon": "~2.3.0",
     "typescript": "^2.4.2",
     "webpack": "^3.5.1"
   },
-  "devDependencies": {
-
-  },
+  "devDependencies": {},
   "bundleDependencies": [],
   "private": true,
   "main": "app.js"

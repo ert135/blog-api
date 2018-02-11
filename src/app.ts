@@ -41,12 +41,10 @@ export class App {
 			username: 'postgres',
 			password: 'password123',
 			port: 5433,
+			modelPaths: [__dirname + '/models']
 		});
-		console.log('database connected!!!');
-		// modelPaths: [__dirname + '/models']
+		console.log('got models from ', __dirname + '/models');
 		// sequelize.addModels([Post]);
-		// sequelize.addModels([Comment]);
-		// sequelize.addModels([User]);
 	}
 
 	private registerMiddleware(): void {
@@ -64,6 +62,7 @@ export class App {
 			}
 
 			next();
+			
 		});
 	}
 

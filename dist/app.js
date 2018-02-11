@@ -8,9 +8,6 @@ const PostRoute_1 = require("./routes/PostRoute");
 const UserRoute_1 = require("./routes/UserRoute");
 const SignupRoute_1 = require("./routes/SignupRoute");
 const AuthRoute_1 = require("./routes/AuthRoute");
-const Post_1 = require("./models/Post");
-const Comment_1 = require("./models/Comment");
-const User_1 = require("./models/User");
 const bearerToken = require("express-bearer-token");
 class App {
     constructor() {
@@ -30,12 +27,10 @@ class App {
             username: 'postgres',
             password: 'password123',
             port: 5433,
+            modelPaths: [__dirname + '/models']
         });
-        console.log('database connected!!!');
-        // modelPaths: [__dirname + '/models']
-        sequelize.addModels([Post_1.default]);
-        sequelize.addModels([Comment_1.default]);
-        sequelize.addModels([User_1.default]);
+        console.log('got models from ', __dirname + '/models');
+        // sequelize.addModels([Post]);
     }
     registerMiddleware() {
         this.express.use(logger('dev'));

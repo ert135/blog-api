@@ -14,9 +14,13 @@ class PostRoute extends Route_1.Route {
     registerRoute() {
         this.router.get('/', (req, res, next) => {
             console.log('Get called!!');
+            let datathing;
+            this.postRepo.listAll().then((data) => {
+                datathing = data;
+            });
             try {
                 res.json({
-                    posts: this.postRepo.listAll()
+                    posts: [datathing]
                 });
             }
             catch (e) {

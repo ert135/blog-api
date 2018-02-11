@@ -8,15 +8,13 @@ export default class Comment extends Model<Comment> {
     @Column(DataType.TEXT)
     body: string;
 
-    //Post association
-    @ForeignKey(() => Post)
-    @Column
-    postId: number;
-
     @BelongsTo(() => Post)
     post: Post;
 
-    //User association
+    @ForeignKey(() => Post)
+    @Column
+    postid: number;
+
     @BelongsTo(() => User)
     user: User;
 
