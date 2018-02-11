@@ -5,7 +5,6 @@ class BaseRepository {
         this.model = model;
     }
     listAll() {
-        console.log('listall called!!!');
         return this.model.findAll({
             where: {
                 id: {
@@ -13,6 +12,9 @@ class BaseRepository {
                 }
             }
         });
+    }
+    findById(id) {
+        return this.model.findById(id);
     }
 }
 exports.default = BaseRepository;

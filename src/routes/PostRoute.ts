@@ -23,16 +23,25 @@ export class PostRoute extends Route {
         this.router.get('/', (req, res, next) => {
             console.log('Get called!!');
             let datathing;
-            this.postRepo.listAll().then((data) => {
-                datathing = data;
-            })
-            try {
+            this.postRepo.findById(1).then(data => {
                 res.json({
-                    posts: [datathing]
-                })
-            } catch (e) {
-                return next(e)
-            }
+                    post: datathing
+                });
+            }).catch(err => {
+                res.json({
+                    err: err
+                });
+            });
+            // this.postRepo.listAll().then((data) => {
+            //     datathing = data;
+            // })
+            // try {
+            //     res.json({
+            //         posts: [datathing]
+            //     })
+            // } catch (e) {
+            //     return next(e)
+            // }
         });
 
         //POST new post

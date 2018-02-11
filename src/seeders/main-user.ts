@@ -9,7 +9,7 @@ module.exports = {
             admin: true
         }], {})
         .then(() => {
-            return queryInterface.bulkInsert('Post', [{
+            return queryInterface.bulkInsert('Posts', [{
                 title: 'SeedPost1',
                 subtitle: 'subtitle',
                 pictureUrl: 'http://i32.photobucket.com/albums/d34/robert_smith47/astar_zpsx4vrkozp.png',

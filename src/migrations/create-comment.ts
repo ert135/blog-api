@@ -25,7 +25,7 @@ module.exports = {
                 defaultValue: Sequelize.literal('NOW()')
             }
         }).then(() => {
-            return queryInterface.createTable('Post', {
+            return queryInterface.createTable('Posts', {
                 id: {
                     allowNull: false,
                     autoIncrement: true,
@@ -80,7 +80,7 @@ module.exports = {
                     type: Sequelize.DataTypes.INTEGER,
                     onDelete: 'CASCADE',
                     references: {
-                        model: 'Post',
+                        model: 'Posts',
                         key: 'id',
                         as: 'postId'
                     }
