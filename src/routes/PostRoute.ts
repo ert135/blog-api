@@ -26,7 +26,6 @@ export class PostRoute extends Route {
                     posts: data
                 });
             }).catch(err => {
-                console.log('err is ', err);
                 return next(err);
             });
         });
@@ -73,10 +72,14 @@ export class PostRoute extends Route {
         });
 
         //get one post
-        this.router.get('/:id', function(req, res, next) {
-            res.json({
-                bob: 'bob'
-            })
+        this.router.get('/:id', (req, res, next) => {
+            this.postRepo.findById(req.params.id).then(data => {
+                res.json({
+                    post: data
+                });
+            }).catch(err => {
+                return next(err);
+            });
         });
 
         //post a comment
