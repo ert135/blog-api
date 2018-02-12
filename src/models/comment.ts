@@ -4,7 +4,7 @@ import Post from './Post';
 import { DataType } from 'sequelize-typescript';
 
 @Table
-export default class Comment extends Model<Comment> {
+export default class Comments extends Model<Comments> {
     @Column(DataType.TEXT)
     body: string;
 

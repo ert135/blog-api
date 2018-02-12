@@ -12,33 +12,33 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
 const Post_1 = require("./Post");
 const Comment_1 = require("./Comment");
-let User = class User extends sequelize_typescript_1.Model {
+let Users = class Users extends sequelize_typescript_1.Model {
 };
 __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", String)
-], User.prototype, "username", void 0);
+], Users.prototype, "username", void 0);
 __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", Date)
-], User.prototype, "password", void 0);
+], Users.prototype, "password", void 0);
 __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", String)
-], User.prototype, "email", void 0);
+], Users.prototype, "email", void 0);
 __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", Boolean)
-], User.prototype, "admin", void 0);
+], Users.prototype, "admin", void 0);
 __decorate([
     sequelize_typescript_1.HasMany(() => Comment_1.default),
     __metadata("design:type", Array)
-], User.prototype, "comments", void 0);
+], Users.prototype, "comments", void 0);
 __decorate([
     sequelize_typescript_1.HasMany(() => Post_1.default),
     __metadata("design:type", Array)
-], User.prototype, "posts", void 0);
-User = __decorate([
+], Users.prototype, "posts", void 0);
+Users = __decorate([
     sequelize_typescript_1.Table
-], User);
-exports.default = User;
+], Users);
+exports.default = Users;

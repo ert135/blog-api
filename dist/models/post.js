@@ -13,42 +13,42 @@ const sequelize_typescript_1 = require("sequelize-typescript");
 const Comment_1 = require("./Comment");
 const User_1 = require("./User");
 const sequelize_typescript_2 = require("sequelize-typescript");
-let Post = class Post extends sequelize_typescript_1.Model {
+let Posts = class Posts extends sequelize_typescript_1.Model {
 };
 __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", String)
-], Post.prototype, "title", void 0);
+], Posts.prototype, "title", void 0);
 __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", Date)
-], Post.prototype, "subtitle", void 0);
+], Posts.prototype, "subtitle", void 0);
 __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", String)
-], Post.prototype, "pictureUrl", void 0);
+], Posts.prototype, "pictureUrl", void 0);
 __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", Boolean)
-], Post.prototype, "top", void 0);
+], Posts.prototype, "top", void 0);
 __decorate([
     sequelize_typescript_1.Column(sequelize_typescript_2.DataType.TEXT),
     __metadata("design:type", String)
-], Post.prototype, "body", void 0);
+], Posts.prototype, "body", void 0);
 __decorate([
     sequelize_typescript_1.HasMany(() => Comment_1.default),
     __metadata("design:type", Array)
-], Post.prototype, "comments", void 0);
+], Posts.prototype, "comments", void 0);
 __decorate([
     sequelize_typescript_1.BelongsTo(() => User_1.default),
     __metadata("design:type", User_1.default)
-], Post.prototype, "user", void 0);
+], Posts.prototype, "user", void 0);
 __decorate([
     sequelize_typescript_1.ForeignKey(() => User_1.default),
     sequelize_typescript_1.Column,
     __metadata("design:type", Number)
-], Post.prototype, "userId", void 0);
-Post = __decorate([
+], Posts.prototype, "userId", void 0);
+Posts = __decorate([
     sequelize_typescript_1.Table
-], Post);
-exports.default = Post;
+], Posts);
+exports.default = Posts;

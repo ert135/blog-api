@@ -4,7 +4,7 @@ import User from './User';
 import { DataType } from 'sequelize-typescript';
 
 @Table
-export default class Post extends Model<Post> {
+export default class Posts extends Model<Posts> {
     @Column
     title: string;
 

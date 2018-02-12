@@ -3,7 +3,7 @@ import Post from './Post'
 import Comment from './Comment'
 
 @Table
-export default class User extends Model<User> {
+export default class Users extends Model<Users> {
     @Column
     username: string;
 

@@ -21,27 +21,14 @@ export class PostRoute extends Route {
 
     registerRoute(): express.Router {
         this.router.get('/', (req, res, next) => {
-            console.log('Get called!!');
-            let datathing;
-            this.postRepo.findById(1).then(data => {
+            this.postRepo.listAll().then(data => {
                 res.json({
-                    post: datathing
+                    posts: data
                 });
             }).catch(err => {
-                res.json({
-                    err: err
-                });
+                console.log('err is ', err);
+                return next(err);
             });
-            // this.postRepo.listAll().then((data) => {
-            //     datathing = data;
-            // })
-            // try {
-            //     res.json({
-            //         posts: [datathing]
-            //     })
-            // } catch (e) {
-            //     return next(e)
-            // }
         });
 
         //POST new post
