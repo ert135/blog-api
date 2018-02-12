@@ -17,6 +17,9 @@ export default class Posts extends Model<Posts> {
     @Column
     top: Boolean;
 
+    @Column(DataType.DATE)
+    createdAt: Boolean;
+
     @Column(DataType.TEXT)
     body: string;
 

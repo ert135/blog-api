@@ -32,6 +32,10 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Posts.prototype, "top", void 0);
 __decorate([
+    sequelize_typescript_1.Column(sequelize_typescript_2.DataType.DATE),
+    __metadata("design:type", Boolean)
+], Posts.prototype, "createdAt", void 0);
+__decorate([
     sequelize_typescript_1.Column(sequelize_typescript_2.DataType.TEXT),
     __metadata("design:type", String)
 ], Posts.prototype, "body", void 0);
