@@ -5,24 +5,29 @@ import { IUser } from '../interfaces/IUserDocument';
 import { NextFunction, Request, Response, Router } from "express";
 import { getSecret } from '../utils/getSecret';
 import { Route } from './Route';
+import UserRepository from '../repositories/UserRepository'
 
 export class AuthRoute extends Route {
-
     private router = express.Router();
+    private userRepo: UserRepository;
 
     constructor() {
         super();
+        this.userRepo = new UserRepository();
     }
     
     public registerRoute(): express.Router {
         return this.router.post("/", (req: Request, res: Response, next: NextFunction) => {
-            if (req.body.email && req.body.password) {
-
-            } else {
-                var err: any = new Error('Email and password are required');
-                err.status = 401
-                next(err);
-            }
+            console.log('body is ', req.body)
+            console.log('email is ', req.body.email);
+            console.log('password is ', req.body.password);
+            this.userRepo.findUserWithLoginDetails(req.body.email, req.body.password).then((data) => {
+                res.json({
+                    response: data
+                })
+            }).catch((err) => {
+                return next(err);
+            });
         });
     }
 }

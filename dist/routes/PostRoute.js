@@ -26,6 +26,13 @@ class PostRoute extends Route_1.Route {
             const token = extractToken_1.extractToken(req).substring(7);
             if (token) {
                 jwt.verify(token, this.secret, function (err, decoded) {
+                    this.postRepo.createPost().then(data => {
+                        res.json({
+                            post: data
+                        });
+                    }).catch(err => {
+                        return next(err);
+                    });
                 });
             }
             else {

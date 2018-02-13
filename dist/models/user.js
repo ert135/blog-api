@@ -20,7 +20,7 @@ __decorate([
 ], Users.prototype, "username", void 0);
 __decorate([
     sequelize_typescript_1.Column,
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], Users.prototype, "password", void 0);
 __decorate([
     sequelize_typescript_1.Column,

@@ -33,10 +33,15 @@ export class PostRoute extends Route {
         //POST new post
         this.router.post('/', function(req, res, next) {
             const token = extractToken(req).substring(7);
-
             if (token) {
                 jwt.verify(token, this.secret, function(err, decoded) {
-
+                    this.postRepo.createPost().then(data => {
+                        res.json({
+                            post: data
+                        });
+                    }).catch(err => {
+                        return next(err);
+                    });
                 });
             } else {
                 var err = new Error("No Token provided");

@@ -5,10 +5,10 @@ import Comment from './Comment'
 @Table
 export default class Users extends Model<Users> {
     @Column
-    username: string;
+    username: String;
 
     @Column
-    password: Date;
+    password: String;
 
     @Column
     email: String;
