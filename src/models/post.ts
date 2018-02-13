@@ -1,7 +1,18 @@
 import { Model, Column, Table, BelongsTo, Scopes, CreatedAt, UpdatedAt, HasMany, ForeignKey } from "sequelize-typescript";
 import Comment from './Comment';
+import IComment from './Comment'
 import User from './User';
 import { DataType } from 'sequelize-typescript';
+
+export interface IPost {
+    title: string,
+    subtitle: string,
+    pictureUrl: string,
+    top: boolean,
+    createdAt: Date,
+    body: string,
+    comments: Array<IComment>
+}
 
 @Table
 export default class Posts extends Model<Posts> {
@@ -9,7 +20,7 @@ export default class Posts extends Model<Posts> {
     title: string;
 
     @Column
-    subtitle: Date;
+    subtitle: String;
 
     @Column
     pictureUrl: String;

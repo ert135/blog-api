@@ -1,7 +1,7 @@
 import { Model } from 'sequelize';
 
 export default class BaseRepository {
-    constructor(protected model: typeof Model){}
+    constructor(protected model: any){}
 
     public listAll() : Promise<any> {
         return this.model.findAll({

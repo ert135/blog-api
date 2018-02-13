@@ -20,6 +20,10 @@ __decorate([
     __metadata("design:type", String)
 ], Comments.prototype, "body", void 0);
 __decorate([
+    sequelize_typescript_1.Column,
+    __metadata("design:type", Date)
+], Comments.prototype, "createdAt", void 0);
+__decorate([
     sequelize_typescript_1.BelongsTo(() => Post_1.default),
     __metadata("design:type", Post_1.default)
 ], Comments.prototype, "post", void 0);

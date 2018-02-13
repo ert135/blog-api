@@ -21,7 +21,7 @@ export class PostRoute extends Route {
 
     registerRoute(): express.Router {
         this.router.get('/', (req, res, next) => {
-            this.postRepo.listAll().then(data => {
+            this.postRepo.getAllPosts().then(data => {
                 res.json({
                     posts: data
                 });
@@ -32,18 +32,6 @@ export class PostRoute extends Route {
 
         //POST new post
         this.router.post('/', function(req, res, next) {
-            if (
-                req.body.title &&
-                req.body.pictureUrl &&
-                req.body.postedBy &&
-                req.body.postBody &&
-                req.body.subtitle
-            ) {}
-            else {
-                var err = new Error("Not All required fields present");
-                return next(err);
-            }
-
             const token = extractToken(req).substring(7);
 
             if (token) {
@@ -58,9 +46,7 @@ export class PostRoute extends Route {
 
         //PUT(upsert) post
         this.router.put('/:id', (req, res, next) => {
-
             const token = extractToken(req).substring(7);
-
             if (token) {
                 jwt.verify(token, this.secret, (err, decoded) => {
                    

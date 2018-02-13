@@ -21,7 +21,7 @@ __decorate([
 ], Posts.prototype, "title", void 0);
 __decorate([
     sequelize_typescript_1.Column,
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], Posts.prototype, "subtitle", void 0);
 __decorate([
     sequelize_typescript_1.Column,

@@ -13,7 +13,7 @@ class PostRoute extends Route_1.Route {
     }
     registerRoute() {
         this.router.get('/', (req, res, next) => {
-            this.postRepo.listAll().then(data => {
+            this.postRepo.getAllPosts().then(data => {
                 res.json({
                     posts: data
                 });
@@ -23,15 +23,6 @@ class PostRoute extends Route_1.Route {
         });
         //POST new post
         this.router.post('/', function (req, res, next) {
-            if (req.body.title &&
-                req.body.pictureUrl &&
-                req.body.postedBy &&
-                req.body.postBody &&
-                req.body.subtitle) { }
-            else {
-                var err = new Error("Not All required fields present");
-                return next(err);
-            }
             const token = extractToken_1.extractToken(req).substring(7);
             if (token) {
                 jwt.verify(token, this.secret, function (err, decoded) {
