@@ -22,18 +22,12 @@ export class AuthRoute extends Route {
         return this.router.post("/", (req: Request, res: Response, next: NextFunction) => {
             this.userRepo.findUserWithLoginDetails(req.body.email).then(user => {
                 this.checkPassword(req.body.password, user.password).then((check) => {
-                    const token = jwt.sign({
-                        name: user.name,
-                        email: user.email,
-                        id: user.id,
-                        type: user.admin,
-                        username: user.username
-                    }, this.secret, {
-                        expiresIn : '60m'
-                    })
-                    res.json({
-                        token: token
-                    })
+                    if (check === true) {
+                        res.json({
+                            token: this.generateToken(user)
+                        })
+                    }
+                    return next('Incorrect username or password')
                 }).catch((err) => {
                     return next(err);
                 });
@@ -49,5 +43,17 @@ export class AuthRoute extends Route {
 
     private getHash(password: string): Promise<string> {
         return bcrypt.hash(password, this.saltRounds);
+    }
+
+    private generateToken(user): any {
+        return jwt.sign({
+            name: user.name,
+            email: user.email,
+            id: user.id,
+            type: user.admin,
+            username: user.username
+        }, this.secret, {
+            expiresIn : '60m'
+        });
     }
 }

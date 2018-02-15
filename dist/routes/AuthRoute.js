@@ -16,22 +16,17 @@ class AuthRoute extends Route_1.Route {
         return this.router.post("/", (req, res, next) => {
             this.userRepo.findUserWithLoginDetails(req.body.email).then(user => {
                 this.checkPassword(req.body.password, user.password).then((check) => {
-                    const token = jwt.sign({
-                        name: user.name,
-                        email: user.email,
-                        id: user.id,
-                        type: user.admin,
-                        username: user.username
-                    }, this.secret, {
-                        expiresIn: '60m'
-                    });
-                    res.json({
-                        token: token
-                    });
+                    if (check === true) {
+                        res.json({
+                            token: this.generateToken(user)
+                        });
+                    }
+                    return next('Incorrect username or password');
                 }).catch((err) => {
                     return next(err);
                 });
             }).catch((err) => {
+                console.log('err is ', err);
                 return next(err);
             });
         });
@@ -41,6 +36,17 @@ class AuthRoute extends Route_1.Route {
     }
     getHash(password) {
         return bcrypt.hash(password, this.saltRounds);
+    }
+    generateToken(user) {
+        return jwt.sign({
+            name: user.name,
+            email: user.email,
+            id: user.id,
+            type: user.admin,
+            username: user.username
+        }, this.secret, {
+            expiresIn: '60m'
+        });
     }
 }
 exports.AuthRoute = AuthRoute;
