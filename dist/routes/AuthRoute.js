@@ -10,14 +10,17 @@ class AuthRoute extends Route_1.Route {
         super();
         this.router = express.Router();
         this.userRepo = new UserRepository_1.default();
-        this.saltRounds = 12;
     }
     registerRoute() {
         return this.router.post("/", (req, res, next) => {
             this.userRepo.findUserWithLoginDetails(req.body.email).then(user => {
+                if (!user) {
+                    return next('Incorrect username or password');
+                }
+                ;
                 this.checkPassword(req.body.password, user.password).then((check) => {
                     if (check === true) {
-                        res.json({
+                        return res.json({
                             token: this.generateToken(user)
                         });
                     }
@@ -26,7 +29,6 @@ class AuthRoute extends Route_1.Route {
                     return next(err);
                 });
             }).catch((err) => {
-                console.log('err is ', err);
                 return next(err);
             });
         });
@@ -34,15 +36,11 @@ class AuthRoute extends Route_1.Route {
     checkPassword(password, hash) {
         return bcrypt.compare(password, hash);
     }
-    getHash(password) {
-        return bcrypt.hash(password, this.saltRounds);
-    }
     generateToken(user) {
         return jwt.sign({
-            name: user.name,
             email: user.email,
             id: user.id,
-            type: user.admin,
+            admin: user.admin,
             username: user.username
         }, this.secret, {
             expiresIn: '60m'

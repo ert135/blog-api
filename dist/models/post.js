@@ -16,6 +16,7 @@ const sequelize_typescript_2 = require("sequelize-typescript");
 let Posts = class Posts extends sequelize_typescript_1.Model {
 };
 __decorate([
+    sequelize_typescript_1.AllowNull(false),
     sequelize_typescript_1.Column,
     __metadata("design:type", String)
 ], Posts.prototype, "title", void 0);
@@ -48,6 +49,7 @@ __decorate([
     __metadata("design:type", User_1.default)
 ], Posts.prototype, "user", void 0);
 __decorate([
+    sequelize_typescript_1.AllowNull(false),
     sequelize_typescript_1.ForeignKey(() => User_1.default),
     sequelize_typescript_1.Column,
     __metadata("design:type", Number)

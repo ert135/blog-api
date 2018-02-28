@@ -21,11 +21,14 @@ class PostRepository extends BaseRepository_1.default {
                 }]
         });
     }
-    createPost() {
-        return this.model.create({
-            title: 'foo',
-            description: 'bar',
-            deadline: new Date()
+    createPost(postData, token) {
+        console.log('postdata is ', postData);
+        return this.Post.create({
+            title: postData.title,
+            subtitle: postData.subtitle,
+            pictureUrl: postData.pictureUrl,
+            top: postData.top,
+            body: postData.body
         });
     }
 }

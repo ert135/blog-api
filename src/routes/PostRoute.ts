@@ -31,11 +31,12 @@ export class PostRoute extends Route {
         });
 
         //POST new post
-        this.router.post('/', function(req, res, next) {
+        this.router.post('/', (req, res, next) => {
             const token = extractToken(req).substring(7);
             if (token) {
-                jwt.verify(token, this.secret, function(err, decoded) {
-                    this.postRepo.createPost().then(data => {
+                jwt.verify(token, this.secret, (err, decoded: any) => {
+                    this.postRepo.createPost(req.body, decoded.id).then(data => {
+                        console.log('data is ', data);
                         res.json({
                             post: data
                         });
@@ -102,7 +103,6 @@ export class PostRoute extends Route {
                         return next(err);
                     } else {
                         //update logic to go here
-                     
                     }
                 });
             }
@@ -134,8 +134,7 @@ export class PostRoute extends Route {
 
                 });
             }
-
-        })
+        });
 
         return this.router;
     }

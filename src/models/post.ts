@@ -1,4 +1,4 @@
-import { Model, Column, Table, BelongsTo, Scopes, CreatedAt, UpdatedAt, HasMany, ForeignKey } from "sequelize-typescript";
+import { Model, Column, Table, BelongsTo, Scopes, CreatedAt, UpdatedAt, HasMany, ForeignKey, AllowNull } from "sequelize-typescript";
 import Comment from './Comment';
 import IComment from './Comment'
 import User from './User';
@@ -16,6 +16,7 @@ export interface IPost {
 
 @Table
 export default class Posts extends Model<Posts> {
+    @AllowNull(false)
     @Column
     title: string;
 
@@ -40,6 +41,7 @@ export default class Posts extends Model<Posts> {
     @BelongsTo(() => User)
     user: User;
 
+    @AllowNull(false)
     @ForeignKey(() => User)
     @Column
     userId: number;

@@ -22,11 +22,12 @@ class PostRoute extends Route_1.Route {
             });
         });
         //POST new post
-        this.router.post('/', function (req, res, next) {
+        this.router.post('/', (req, res, next) => {
             const token = extractToken_1.extractToken(req).substring(7);
             if (token) {
-                jwt.verify(token, this.secret, function (err, decoded) {
-                    this.postRepo.createPost().then(data => {
+                jwt.verify(token, this.secret, (err, decoded) => {
+                    this.postRepo.createPost(req.body, decoded.id).then(data => {
+                        console.log('data is ', data);
                         res.json({
                             post: data
                         });

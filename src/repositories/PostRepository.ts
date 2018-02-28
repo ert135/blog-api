@@ -24,11 +24,14 @@ export default class PostRepository extends BaseRepository {
         });
     }
 
-    createPost(): Promise<IPost> {
-        return this.model.create({ 
-            title: 'foo', 
-            description: 'bar', 
-            deadline: new Date() 
-        })
+    createPost(postData: IPost, token: any): Promise<IPost> {
+        console.log('postdata is ', postData);
+        return this.Post.create({ 
+            title: postData.title,
+            subtitle: postData.subtitle,
+            pictureUrl: postData.pictureUrl,
+            top: postData.top,
+            body: postData.body
+        });
     }
 }

@@ -43,8 +43,6 @@ export class App {
 			port: 5433,
 			modelPaths: [__dirname + '/models']
 		});
-		console.log('got models from ', __dirname + '/models');
-		// sequelize.addModels([Post]);
 	}
 
 	private registerMiddleware(): void {
@@ -59,10 +57,9 @@ export class App {
 			if (req.method === "OPTIONS") {
 				res.header("Access-Control-Allow-Methods", "PUT,POST,DELETE,GET");
 				return res.status(200).json({});
-			}
+			};
 
 			next();
-			
 		});
 	}
 
