@@ -45,12 +45,18 @@ class PostRoute extends Route_1.Route {
             const token = extractToken_1.extractToken(req).substring(7);
             if (token) {
                 jwt.verify(token, this.secret, (err, decoded) => {
-                    this.postRepo.editPost(req.body, decoded.id).then(data => {
-                        res.json({
-                            post: data
+                    this.postRepo.findById(parseInt(req.params.id))
+                        .then((post) => {
+                        if (post.userId !== decoded.id) {
+                            return next('User can only edit their own post');
+                        }
+                        this.postRepo.editPost(req.body, post.id).then(data => {
+                            res.json({
+                                post: data
+                            });
+                        }).catch(err => {
+                            return next(err);
                         });
-                    }).catch(err => {
-                        return next(err);
                     });
                 });
             }
@@ -68,6 +74,28 @@ class PostRoute extends Route_1.Route {
             }).catch(err => {
                 return next(err);
             });
+        });
+        //delete post
+        this.router.delete('/:id', (req, res, next) => {
+            const token = extractToken_1.extractToken(req).substring(7);
+            if (token) {
+                jwt.verify(token, this.secret, (err, decoded) => {
+                    if (decoded.admin !== true) {
+                        return next('Only an admin can delete posts');
+                    }
+                    this.postRepo.deleteById(req.params.id).then(data => {
+                        res.json({
+                            id: req.params.id
+                        });
+                    }).catch(err => {
+                        return next(err);
+                    });
+                });
+            }
+            else {
+                var err = new Error("No Token provided");
+                return next(err);
+            }
         });
         //post a comment
         this.router.post('/:id/comment', (req, res, next) => {

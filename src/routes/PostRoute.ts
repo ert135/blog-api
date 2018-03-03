@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
 import Comment from '../models/comment.js';
-import Post from '../models/post.js';
+import Post, { IPost } from '../models/post.js';
 
 import { IUser } from '../interfaces/IUserDocument';
 import { NextFunction, Request, Response, Router } from "express";
@@ -54,13 +54,19 @@ export class PostRoute extends Route {
             const token = extractToken(req).substring(7);
             if (token) {
                 jwt.verify(token, this.secret, (err, decoded: any) => {
-                    this.postRepo.editPost(req.body, decoded.id).then(data => {
-                        res.json({
-                            post: data
+                    this.postRepo.findById(parseInt(req.params.id))
+                        .then((post: IPost) => {
+                            if (post.userId !== decoded.id) {
+                                return next('User can only edit their own post');
+                            }
+                            this.postRepo.editPost(req.body, post.id).then(data => {
+                                res.json({
+                                    post: data
+                                });
+                            }).catch(err => {
+                                return next(err);
+                            });
                         });
-                    }).catch(err => {
-                        return next(err);
-                    });
                 });
             } else {
                 var err = new Error("No Token provided");
@@ -77,6 +83,28 @@ export class PostRoute extends Route {
             }).catch(err => {
                 return next(err);
             });
+        });
+        
+        //delete post
+        this.router.delete('/:id', (req, res, next) => {
+            const token = extractToken(req).substring(7);
+            if (token) {
+                jwt.verify(token, this.secret, (err, decoded: any) => {
+                    if (decoded.admin !== true) {
+                        return next('Only an admin can delete posts');
+                    }
+                    this.postRepo.deleteById(req.params.id).then(data => {
+                        res.json({
+                            id: req.params.id
+                        });
+                    }).catch(err => {
+                        return next(err);
+                    });
+                });
+            } else {
+                var err = new Error("No Token provided");
+                return next(err);
+            }
         });
 
         //post a comment

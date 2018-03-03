@@ -14,6 +14,18 @@ export default class BaseRepository {
     }
 
     public findById(id: number) : Promise<any> {
-        return this.model.findById(id);
+        return this.model.findById(id, {
+            where: {
+                id: id
+            }
+        });
+    }
+
+    public deleteById(id: number): Promise<any> {
+        return this.model.destroy({
+            where: {
+                id : id
+            }
+        });
     }
 }

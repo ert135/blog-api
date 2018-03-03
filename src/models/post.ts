@@ -5,13 +5,15 @@ import User from './User';
 import { DataType } from 'sequelize-typescript';
 
 export interface IPost {
+    id?: number,
     title: string,
     subtitle: string,
     pictureUrl: string,
     top: boolean,
     createdAt: Date,
     body: string,
-    comments: Array<IComment>
+    comments: Array<IComment>,
+    userId: number
 }
 
 @Table

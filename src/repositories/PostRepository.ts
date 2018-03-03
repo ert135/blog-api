@@ -9,7 +9,6 @@ export default class PostRepository extends BaseRepository {
     constructor() {
         super(<any>Post);
         this.Post = Post;
-        console.log('Post is ', this.Post);
     }
 
     public getAllPosts(): Promise<IPost> {
@@ -37,23 +36,17 @@ export default class PostRepository extends BaseRepository {
         });
     }
 
-    public editPost(postData: IPost, userId: number): any {
-        // let post = this.Post.find({
-        //     where: {
-        //         id: postData.id,
-        //         userId: userId
-        //     }
-        // }).then((data) => {
-        //     console.log('Found data is ', data);
-        // });
-
-        // return post.update({
-        //     title: postData.title,
-        //     subtitle: postData.subtitle,
-        //     pictureUrl: postData.pictureUrl,
-        //     top: postData.top,
-        //     body: postData.body
-        // });
-
+    public editPost(postData: IPost, postId: number): Promise<IPost> {
+        return this.Post.update({
+            title: postData.title,
+            subtitle: postData.subtitle,
+            pictureUrl: postData.pictureUrl,
+            top: postData.top,
+            body: postData.body
+        }, {
+            where: {
+                id: postId
+            }
+        });
     }
 }

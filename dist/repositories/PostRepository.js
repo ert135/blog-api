@@ -7,7 +7,6 @@ class PostRepository extends BaseRepository_1.default {
     constructor() {
         super(Post_1.default);
         this.Post = Post_1.default;
-        console.log('Post is ', this.Post);
     }
     getAllPosts() {
         return this.Post.findAll({
@@ -32,22 +31,18 @@ class PostRepository extends BaseRepository_1.default {
             userId: userId
         });
     }
-    editPost(postData, userId) {
-        // let post = this.Post.find({
-        //     where: {
-        //         id: postData.id,
-        //         userId: userId
-        //     }
-        // }).then((data) => {
-        //     console.log('Found data is ', data);
-        // });
-        // return post.update({
-        //     title: postData.title,
-        //     subtitle: postData.subtitle,
-        //     pictureUrl: postData.pictureUrl,
-        //     top: postData.top,
-        //     body: postData.body
-        // });
+    editPost(postData, postId) {
+        return this.Post.update({
+            title: postData.title,
+            subtitle: postData.subtitle,
+            pictureUrl: postData.pictureUrl,
+            top: postData.top,
+            body: postData.body
+        }, {
+            where: {
+                id: postId
+            }
+        });
     }
 }
 exports.default = PostRepository;

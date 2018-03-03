@@ -14,7 +14,18 @@ class BaseRepository {
         });
     }
     findById(id) {
-        return this.model.findById(id);
+        return this.model.findById(id, {
+            where: {
+                id: id
+            }
+        });
+    }
+    deleteById(id) {
+        return this.model.destroy({
+            where: {
+                id: id
+            }
+        });
     }
 }
 exports.default = BaseRepository;
