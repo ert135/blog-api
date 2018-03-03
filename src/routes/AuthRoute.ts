@@ -49,7 +49,7 @@ export class AuthRoute extends Route {
             admin: user.admin,
             username: user.username
         }, this.secret, {
-            expiresIn : '60m'
+            expiresIn : '48h'
         });
     }
 }

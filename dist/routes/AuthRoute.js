@@ -43,7 +43,7 @@ class AuthRoute extends Route_1.Route {
             admin: user.admin,
             username: user.username
         }, this.secret, {
-            expiresIn: '60m'
+            expiresIn: '48h'
         });
     }
 }

@@ -1,17 +1,18 @@
 import BaseRepository from './BaseRepository';
 import Post from '../models/Post';
 import Users from '../models/User';
-import IPost from '../models/Post'
+import IPost from '../models/Post';
 
 export default class PostRepository extends BaseRepository {
-    private Post: any
+    private Post: any;
+
     constructor() {
         super(<any>Post);
-        this.Post = Post
+        this.Post = Post;
         console.log('Post is ', this.Post);
     }
 
-    getAllPosts(): Promise<IPost> {
+    public getAllPosts(): Promise<IPost> {
         return this.Post.findAll({
             where: {
                 id: {
@@ -19,19 +20,40 @@ export default class PostRepository extends BaseRepository {
                 }
             },
             include: [{
-                model: Users
+                model: Users,
+                attributes: ['username', 'id']
             }]
         });
     }
 
-    createPost(postData: IPost, token: any): Promise<IPost> {
-        console.log('postdata is ', postData);
+    public createPost(postData: IPost, userId: number): Promise<IPost> {
         return this.Post.create({ 
             title: postData.title,
             subtitle: postData.subtitle,
             pictureUrl: postData.pictureUrl,
             top: postData.top,
-            body: postData.body
+            body: postData.body,
+            userId: userId
         });
+    }
+
+    public editPost(postData: IPost, userId: number): any {
+        // let post = this.Post.find({
+        //     where: {
+        //         id: postData.id,
+        //         userId: userId
+        //     }
+        // }).then((data) => {
+        //     console.log('Found data is ', data);
+        // });
+
+        // return post.update({
+        //     title: postData.title,
+        //     subtitle: postData.subtitle,
+        //     pictureUrl: postData.pictureUrl,
+        //     top: postData.top,
+        //     body: postData.body
+        // });
+
     }
 }

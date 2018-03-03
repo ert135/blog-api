@@ -17,19 +17,37 @@ class PostRepository extends BaseRepository_1.default {
                 }
             },
             include: [{
-                    model: User_1.default
+                    model: User_1.default,
+                    attributes: ['username', 'id']
                 }]
         });
     }
-    createPost(postData, token) {
-        console.log('postdata is ', postData);
+    createPost(postData, userId) {
         return this.Post.create({
             title: postData.title,
             subtitle: postData.subtitle,
             pictureUrl: postData.pictureUrl,
             top: postData.top,
-            body: postData.body
+            body: postData.body,
+            userId: userId
         });
+    }
+    editPost(postData, userId) {
+        // let post = this.Post.find({
+        //     where: {
+        //         id: postData.id,
+        //         userId: userId
+        //     }
+        // }).then((data) => {
+        //     console.log('Found data is ', data);
+        // });
+        // return post.update({
+        //     title: postData.title,
+        //     subtitle: postData.subtitle,
+        //     pictureUrl: postData.pictureUrl,
+        //     top: postData.top,
+        //     body: postData.body
+        // });
     }
 }
 exports.default = PostRepository;

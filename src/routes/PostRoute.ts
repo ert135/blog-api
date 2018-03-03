@@ -36,7 +36,6 @@ export class PostRoute extends Route {
             if (token) {
                 jwt.verify(token, this.secret, (err, decoded: any) => {
                     this.postRepo.createPost(req.body, decoded.id).then(data => {
-                        console.log('data is ', data);
                         res.json({
                             post: data
                         });
@@ -54,8 +53,14 @@ export class PostRoute extends Route {
         this.router.put('/:id', (req, res, next) => {
             const token = extractToken(req).substring(7);
             if (token) {
-                jwt.verify(token, this.secret, (err, decoded) => {
-                   
+                jwt.verify(token, this.secret, (err, decoded: any) => {
+                    this.postRepo.editPost(req.body, decoded.id).then(data => {
+                        res.json({
+                            post: data
+                        });
+                    }).catch(err => {
+                        return next(err);
+                    });
                 });
             } else {
                 var err = new Error("No Token provided");
@@ -77,7 +82,8 @@ export class PostRoute extends Route {
         //post a comment
         this.router.post('/:id/comment', (req, res, next) => {
 
-            if (req.body.text &&
+            if (
+                req.body.text &&
                 req.body.user &&
                 req.body.userName) {} else {
                 var err = new Error("All Fields required");

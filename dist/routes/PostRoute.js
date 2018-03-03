@@ -27,7 +27,6 @@ class PostRoute extends Route_1.Route {
             if (token) {
                 jwt.verify(token, this.secret, (err, decoded) => {
                     this.postRepo.createPost(req.body, decoded.id).then(data => {
-                        console.log('data is ', data);
                         res.json({
                             post: data
                         });
@@ -46,6 +45,13 @@ class PostRoute extends Route_1.Route {
             const token = extractToken_1.extractToken(req).substring(7);
             if (token) {
                 jwt.verify(token, this.secret, (err, decoded) => {
+                    this.postRepo.editPost(req.body, decoded.id).then(data => {
+                        res.json({
+                            post: data
+                        });
+                    }).catch(err => {
+                        return next(err);
+                    });
                 });
             }
             else {
