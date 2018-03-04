@@ -10,38 +10,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
-const User_1 = require("./User");
-const Post_1 = require("./Post");
-const sequelize_typescript_2 = require("sequelize-typescript");
-let Comments = class Comments extends sequelize_typescript_1.Model {
+const post_1 = require("./post");
+const comment_1 = require("./comment");
+let User = class User extends sequelize_typescript_1.Model {
 };
 __decorate([
-    sequelize_typescript_1.Column(sequelize_typescript_2.DataType.TEXT),
+    sequelize_typescript_1.Column,
     __metadata("design:type", String)
-], Comments.prototype, "body", void 0);
+], User.prototype, "username", void 0);
 __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", Date)
-], Comments.prototype, "createdAt", void 0);
+], User.prototype, "password", void 0);
 __decorate([
-    sequelize_typescript_1.BelongsTo(() => Post_1.default),
-    __metadata("design:type", Post_1.default)
-], Comments.prototype, "post", void 0);
-__decorate([
-    sequelize_typescript_1.ForeignKey(() => Post_1.default),
     sequelize_typescript_1.Column,
-    __metadata("design:type", Number)
-], Comments.prototype, "postid", void 0);
+    __metadata("design:type", String)
+], User.prototype, "email", void 0);
 __decorate([
-    sequelize_typescript_1.BelongsTo(() => User_1.default),
-    __metadata("design:type", User_1.default)
-], Comments.prototype, "user", void 0);
-__decorate([
-    sequelize_typescript_1.ForeignKey(() => User_1.default),
     sequelize_typescript_1.Column,
-    __metadata("design:type", Number)
-], Comments.prototype, "userId", void 0);
-Comments = __decorate([
+    __metadata("design:type", Boolean)
+], User.prototype, "admin", void 0);
+__decorate([
+    sequelize_typescript_1.HasMany(() => comment_1.default),
+    __metadata("design:type", Array)
+], User.prototype, "comments", void 0);
+__decorate([
+    sequelize_typescript_1.HasMany(() => post_1.default),
+    __metadata("design:type", Array)
+], User.prototype, "posts", void 0);
+User = __decorate([
     sequelize_typescript_1.Table
-], Comments);
-exports.default = Comments;
+], User);
+exports.default = User;

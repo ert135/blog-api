@@ -1,5 +1,5 @@
 import * as express from "express";
-import * as Sequelize from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 
 import * as path from "path";
 import * as logger from "morgan";
@@ -11,13 +11,17 @@ import { UserRoute } from "./routes/UserRoute";
 import { SignupRoute } from "./routes/SignupRoute";
 import { AuthRoute } from "./routes/AuthRoute";
 
+import Post from './models/Post';
+import Comment from './models/Comment';
+import User from './models/User';
+
 import * as bearerToken from "express-bearer-token";
 
 export class App {
 
 	private express: express.Application;
 	private db_name: string;
-	private router: express.Router
+	private router: express.Router;
 
 	constructor() {
 		this.express = express();
@@ -31,15 +35,13 @@ export class App {
 
 	private connectDatabase(): void {
 		console.log('Connecting to database...');
-		const sequelize = new Sequelize('blog', 'postgres', 'saltwater9', {
-			host: 'localhost',
+		const sequelize =  new Sequelize({
+			database: 'postgres',
 			dialect: 'postgres',
-			pool: {
-			  max: 5,
-			  min: 0,
-			  acquire: 30000,
-			  idle: 10000
-			}
+			username: 'postgres',
+			password: 'password123',
+			port: 5433,
+			modelPaths: [__dirname + '/models']
 		});
 	}
 
@@ -55,7 +57,7 @@ export class App {
 			if (req.method === "OPTIONS") {
 				res.header("Access-Control-Allow-Methods", "PUT,POST,DELETE,GET");
 				return res.status(200).json({});
-			}
+			};
 
 			next();
 		});

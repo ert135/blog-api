@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import * as express from 'express';
-import { User, UserSchema } from '../models/user.js';
+// import User from '../models/user.js';
 import { IUser } from '../interfaces/IUserDocument';
 import { extractToken } from '../utils/extractToken';
 import { getSecret } from '../utils/getSecret';

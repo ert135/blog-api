@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var getSecret = function () {
+const getSecret = () => {
     return process.env['JWT_SECRET'];
 };
 exports.getSecret = getSecret;

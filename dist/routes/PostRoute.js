@@ -1,45 +1,38 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var express = require("express");
-var jwt = require("jsonwebtoken");
-var Route_1 = require("./Route");
-var extractToken_1 = require("../utils/extractToken");
-var PostRoute = /** @class */ (function (_super) {
-    __extends(PostRoute, _super);
-    function PostRoute() {
-        var _this = _super.call(this) || this;
-        _this.router = express.Router();
-        return _this;
+const express = require("express");
+const jwt = require("jsonwebtoken");
+const Route_1 = require("./Route");
+const extractToken_1 = require("../utils/extractToken");
+const PostRepository_1 = require("../repositories/PostRepository");
+class PostRoute extends Route_1.Route {
+    constructor() {
+        super();
+        this.router = express.Router();
+        this.postRepo = new PostRepository_1.default();
     }
-    PostRoute.prototype.registerRoute = function () {
-        var _this = this;
-        //get post listing
-        this.router.get('/', function (req, res, next) {
+    registerRoute() {
+        this.router.get('/', (req, res, next) => {
+            this.postRepo.getAllPosts().then(data => {
+                res.json({
+                    posts: data
+                });
+            }).catch(err => {
+                return next(err);
+            });
         });
         //POST new post
-        this.router.post('/', function (req, res, next) {
-            if (req.body.title &&
-                req.body.pictureUrl &&
-                req.body.postedBy &&
-                req.body.postBody &&
-                req.body.subtitle) { }
-            else {
-                var err = new Error("Not All required fields present");
-                return next(err);
-            }
-            var token = extractToken_1.extractToken(req).substring(7);
+        this.router.post('/', (req, res, next) => {
+            const token = extractToken_1.extractToken(req).substring(7);
             if (token) {
-                jwt.verify(token, this.secret, function (err, decoded) {
+                jwt.verify(token, this.secret, (err, decoded) => {
+                    this.postRepo.createPost(req.body, decoded.id).then(data => {
+                        res.json({
+                            post: data
+                        });
+                    }).catch(err => {
+                        return next(err);
+                    });
                 });
             }
             else {
@@ -48,10 +41,23 @@ var PostRoute = /** @class */ (function (_super) {
             }
         });
         //PUT(upsert) post
-        this.router.put('/:id', function (req, res, next) {
-            var token = extractToken_1.extractToken(req).substring(7);
+        this.router.put('/:id', (req, res, next) => {
+            const token = extractToken_1.extractToken(req).substring(7);
             if (token) {
-                jwt.verify(token, _this.secret, function (err, decoded) {
+                jwt.verify(token, this.secret, (err, decoded) => {
+                    this.postRepo.findById(parseInt(req.params.id))
+                        .then((post) => {
+                        if (post.userId !== decoded.id) {
+                            return next('User can only edit their own post');
+                        }
+                        this.postRepo.editPost(req.body, post.id).then(data => {
+                            res.json({
+                                post: data
+                            });
+                        }).catch(err => {
+                            return next(err);
+                        });
+                    });
                 });
             }
             else {
@@ -60,10 +66,39 @@ var PostRoute = /** @class */ (function (_super) {
             }
         });
         //get one post
-        this.router.get('/:id', function (req, res, next) {
+        this.router.get('/:id', (req, res, next) => {
+            this.postRepo.findById(req.params.id).then(data => {
+                res.json({
+                    post: data
+                });
+            }).catch(err => {
+                return next(err);
+            });
+        });
+        //delete post
+        this.router.delete('/:id', (req, res, next) => {
+            const token = extractToken_1.extractToken(req).substring(7);
+            if (token) {
+                jwt.verify(token, this.secret, (err, decoded) => {
+                    if (decoded.admin !== true) {
+                        return next('Only an admin can delete posts');
+                    }
+                    this.postRepo.deleteById(req.params.id).then(data => {
+                        res.json({
+                            id: req.params.id
+                        });
+                    }).catch(err => {
+                        return next(err);
+                    });
+                });
+            }
+            else {
+                var err = new Error("No Token provided");
+                return next(err);
+            }
         });
         //post a comment
-        this.router.post('/:id/comment', function (req, res, next) {
+        this.router.post('/:id/comment', (req, res, next) => {
             if (req.body.text &&
                 req.body.user &&
                 req.body.userName) { }
@@ -76,14 +111,14 @@ var PostRoute = /** @class */ (function (_super) {
                 user: req.body.user,
                 userName: req.body.userName
             };
-            var token = extractToken_1.extractToken(req).substring(7);
+            const token = extractToken_1.extractToken(req).substring(7);
             if (!token) {
                 var err = new Error("No Token Provied");
                 return next(err);
             }
             if (token) {
                 // verifies secret and checks exp
-                jwt.verify(token, _this.secret, function (err, decoded) {
+                jwt.verify(token, this.secret, function (err, decoded) {
                     if (err) {
                         return next(err);
                     }
@@ -93,15 +128,15 @@ var PostRoute = /** @class */ (function (_super) {
                 });
             }
         });
-        this.router.delete('/:id/comment/:commentId', function (req, res, next) {
-            var token = extractToken_1.extractToken(req).substring(7);
+        this.router.delete('/:id/comment/:commentId', (req, res, next) => {
+            const token = extractToken_1.extractToken(req).substring(7);
             if (!token) {
                 var err = new Error("No Token Provied");
                 return next(err);
             }
             if (token) {
                 // verifies secret and checks exp
-                jwt.verify(token, _this.secret, function (err, decoded) {
+                jwt.verify(token, this.secret, (err, decoded) => {
                     if (decoded.type === "admin") {
                         if (err) {
                             return next(err);
@@ -111,14 +146,13 @@ var PostRoute = /** @class */ (function (_super) {
                         }
                     }
                     else {
-                        var err_1 = new Error("Need admin permissions to delete comments");
-                        return next(err_1);
+                        let err = new Error("Need admin permissions to delete comments");
+                        return next(err);
                     }
                 });
             }
         });
         return this.router;
-    };
-    return PostRoute;
-}(Route_1.Route));
+    }
+}
 exports.PostRoute = PostRoute;

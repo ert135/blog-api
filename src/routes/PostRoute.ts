@@ -1,46 +1,47 @@
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
-import { comment, CommentSchema } from '../models/comment.js';
-// import { Post } from '../models/posts.js';
+import Comment from '../models/comment.js';
+import Post, { IPost } from '../models/post.js';
+
 import { IUser } from '../interfaces/IUserDocument';
 import { NextFunction, Request, Response, Router } from "express";
 import { Route } from './Route';
 import { extractToken } from '../utils/extractToken';
+import PostRepository from '../repositories/PostRepository';
 
 export class PostRoute extends Route {
 
     private router = express.Router();
+    private postRepo: PostRepository;
 
     constructor() {
         super();
+        this.postRepo = new PostRepository();
     }
 
     registerRoute(): express.Router {
-        //get post listing
-        this.router.get('/', function(req, res, next) {
-
+        this.router.get('/', (req, res, next) => {
+            this.postRepo.getAllPosts().then(data => {
+                res.json({
+                    posts: data
+                });
+            }).catch(err => {
+                return next(err);
+            });
         });
 
         //POST new post
-        this.router.post('/', function(req, res, next) {
-
-            if (
-                req.body.title && 
-                req.body.pictureUrl &&
-                req.body.postedBy &&
-                req.body.postBody &&
-                req.body.subtitle 
-            ) {} 
-            else {
-                var err = new Error("Not All required fields present");
-                return next(err);
-            }
-
+        this.router.post('/', (req, res, next) => {
             const token = extractToken(req).substring(7);
-
             if (token) {
-                jwt.verify(token, this.secret, function(err, decoded) {
-
+                jwt.verify(token, this.secret, (err, decoded: any) => {
+                    this.postRepo.createPost(req.body, decoded.id).then(data => {
+                        res.json({
+                            post: data
+                        });
+                    }).catch(err => {
+                        return next(err);
+                    });
                 });
             } else {
                 var err = new Error("No Token provided");
@@ -50,12 +51,22 @@ export class PostRoute extends Route {
 
         //PUT(upsert) post
         this.router.put('/:id', (req, res, next) => {
-
             const token = extractToken(req).substring(7);
-
             if (token) {
-                jwt.verify(token, this.secret, (err, decoded) => {
-                   
+                jwt.verify(token, this.secret, (err, decoded: any) => {
+                    this.postRepo.findById(parseInt(req.params.id))
+                        .then((post: IPost) => {
+                            if (post.userId !== decoded.id) {
+                                return next('User can only edit their own post');
+                            }
+                            this.postRepo.editPost(req.body, post.id).then(data => {
+                                res.json({
+                                    post: data
+                                });
+                            }).catch(err => {
+                                return next(err);
+                            });
+                        });
                 });
             } else {
                 var err = new Error("No Token provided");
@@ -64,14 +75,43 @@ export class PostRoute extends Route {
         });
 
         //get one post
-        this.router.get('/:id', function(req, res, next) {
+        this.router.get('/:id', (req, res, next) => {
+            this.postRepo.findById(req.params.id).then(data => {
+                res.json({
+                    post: data
+                });
+            }).catch(err => {
+                return next(err);
+            });
+        });
         
+        //delete post
+        this.router.delete('/:id', (req, res, next) => {
+            const token = extractToken(req).substring(7);
+            if (token) {
+                jwt.verify(token, this.secret, (err, decoded: any) => {
+                    if (decoded.admin !== true) {
+                        return next('Only an admin can delete posts');
+                    }
+                    this.postRepo.deleteById(req.params.id).then(data => {
+                        res.json({
+                            id: req.params.id
+                        });
+                    }).catch(err => {
+                        return next(err);
+                    });
+                });
+            } else {
+                var err = new Error("No Token provided");
+                return next(err);
+            }
         });
 
         //post a comment
         this.router.post('/:id/comment', (req, res, next) => {
 
-            if (req.body.text &&
+            if (
+                req.body.text &&
                 req.body.user &&
                 req.body.userName) {} else {
                 var err = new Error("All Fields required");
@@ -97,7 +137,6 @@ export class PostRoute extends Route {
                         return next(err);
                     } else {
                         //update logic to go here
-                     
                     }
                 });
             }
@@ -129,8 +168,7 @@ export class PostRoute extends Route {
 
                 });
             }
-
-        })
+        });
 
         return this.router;
     }

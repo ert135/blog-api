@@ -1,35 +1,50 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var express = require("express");
-var Route_1 = require("./Route");
-var AuthRoute = /** @class */ (function (_super) {
-    __extends(AuthRoute, _super);
-    function AuthRoute() {
-        var _this = _super.call(this) || this;
-        _this.router = express.Router();
-        return _this;
+const express = require("express");
+const jwt = require("jsonwebtoken");
+const Route_1 = require("./Route");
+const UserRepository_1 = require("../repositories/UserRepository");
+const bcrypt = require("bcryptjs");
+class AuthRoute extends Route_1.Route {
+    constructor() {
+        super();
+        this.router = express.Router();
+        this.userRepo = new UserRepository_1.default();
     }
-    AuthRoute.prototype.registerRoute = function () {
-        return this.router.post("/", function (req, res, next) {
-            if (req.body.email && req.body.password) {
-            }
-            else {
-                var err = new Error('Email and password are required');
-                err.status = 401;
-                next(err);
-            }
+    registerRoute() {
+        return this.router.post("/", (req, res, next) => {
+            this.userRepo.findUserWithLoginDetails(req.body.email).then(user => {
+                if (!user) {
+                    return next('Incorrect username or password');
+                }
+                ;
+                this.checkPassword(req.body.password, user.password).then((check) => {
+                    if (check === true) {
+                        return res.json({
+                            token: this.generateToken(user)
+                        });
+                    }
+                    return next('Incorrect username or password');
+                }).catch((err) => {
+                    return next(err);
+                });
+            }).catch((err) => {
+                return next(err);
+            });
         });
-    };
-    return AuthRoute;
-}(Route_1.Route));
+    }
+    checkPassword(password, hash) {
+        return bcrypt.compare(password, hash);
+    }
+    generateToken(user) {
+        return jwt.sign({
+            email: user.email,
+            id: user.id,
+            admin: user.admin,
+            username: user.username
+        }, this.secret, {
+            expiresIn: '48h'
+        });
+    }
+}
 exports.AuthRoute = AuthRoute;
