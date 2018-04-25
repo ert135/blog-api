@@ -3,6 +3,8 @@
 
 dist
 
+/dist
+
 # User-specific files
 *.suo
 *.user
