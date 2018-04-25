@@ -1,7 +1,12 @@
 import { Model, Column, Table, BelongsTo, Scopes, CreatedAt, UpdatedAt, HasMany } from "sequelize-typescript";
-import Comment from './comment';
-import User from './user';
+import Comment from './Comment';
+import User from './User';
 import { DataType } from 'sequelize-typescript';
+
+export interface IPost {
+    userId: any,
+    id: any
+}
 
 @Table
 export default class Post extends Model<Post> {

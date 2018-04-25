@@ -2,6 +2,10 @@ import { Model, Column, Table, BelongsToMany, Scopes, CreatedAt, UpdatedAt, HasM
 import Post from './Post'
 import Comment from './Comment'
 
+export interface IUser {
+    
+}
+
 @Table
 export default class Users extends Model<Users> {
     @Column
