@@ -9,7 +9,7 @@ export default class UserRepository extends BaseRepository {
         this.User = User;
     }
 
-    findUserWithLoginDetails(email: string): Promise<any> {
+    findUserWithLoginDetails(email: string): any {
         return this.model.findOne({
             where: {
                 email: email

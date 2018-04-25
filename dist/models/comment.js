@@ -31,7 +31,7 @@ __decorate([
     sequelize_typescript_1.ForeignKey(() => Post_1.default),
     sequelize_typescript_1.Column,
     __metadata("design:type", Number)
-], Comments.prototype, "postid", void 0);
+], Comments.prototype, "postId", void 0);
 __decorate([
     sequelize_typescript_1.BelongsTo(() => User_1.default),
     __metadata("design:type", User_1.default)

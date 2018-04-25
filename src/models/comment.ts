@@ -21,7 +21,7 @@ export default class Comments extends Model<Comments> {
 
     @ForeignKey(() => Post)
     @Column
-    postid: number;
+    postId: number;
 
     @BelongsTo(() => User)
     user: User;
