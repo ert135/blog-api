@@ -3,7 +3,7 @@ import { Model } from 'sequelize';
 export default class BaseRepository {
     constructor(protected model: typeof Model){}
 
-    public listAll() : any {
+    public listAll(): any {
         return this.model.findAll({
             where: {
                 id: {
@@ -13,7 +13,7 @@ export default class BaseRepository {
         });
     }
 
-    public findById(id: number) : any {
+    public findById(id: number): any {
         return this.model.findById(id, {
             where: {
                 id: id
