@@ -20,7 +20,12 @@ export default class Posts extends Model<Posts> {
     pictureUrl: String;
 
     @Column(DataType.DATE)
-    postedOnDate: {
+    updatedAt: {
+        type: Date
+    };
+
+    @Column(DataType.DATE)
+    createdAt: {
         type: Date
     };
 
