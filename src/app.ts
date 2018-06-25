@@ -1,21 +1,12 @@
 import * as express from "express";
-import { Sequelize } from 'sequelize-typescript';
-
-import * as path from "path";
 import * as logger from "morgan";
-import * as cookieParser from "cookie-parser";
 import * as bodyParser from "body-parser";
-
+import * as bearerToken from "express-bearer-token";
+import { Sequelize } from 'sequelize-typescript';
 import { PostRoute } from "./routes/PostRoute";
 import { UserRoute } from "./routes/UserRoute";
 import { SignupRoute } from "./routes/SignupRoute";
 import { AuthRoute } from "./routes/AuthRoute";
-
-import Post from './models/Post';
-import Comment from './models/Comment';
-import User from './models/User';
-
-import * as bearerToken from "express-bearer-token";
 
 export class App {
 
@@ -40,7 +31,7 @@ export class App {
 			dialect: 'postgres',
 			username: 'postgres',
 			password: 'password123',
-			port: 5433,
+			port: 5432,
 			modelPaths: [__dirname + '/models']
 		});
 	}

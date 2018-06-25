@@ -26,7 +26,7 @@ export default class PostRepository extends BaseRepository {
     }
 
     public createPost(postData: IPost, userId: number): Promise<IPost> {
-        return this.Post.create({ 
+        return this.Post.create({
             title: postData.title,
             subtitle: postData.subtitle,
             pictureUrl: postData.pictureUrl,

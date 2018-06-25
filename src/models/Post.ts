@@ -9,7 +9,7 @@ export interface IPost {
 }
 
 @Table
-export default class Post extends Model<Post> {
+export default class Posts extends Model<Posts> {
     @Column
     title: string;
 
